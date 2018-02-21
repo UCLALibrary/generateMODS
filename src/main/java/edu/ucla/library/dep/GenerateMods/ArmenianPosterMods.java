@@ -240,6 +240,25 @@ public class ArmenianPosterMods
         		
     		}
     		
+    		if(null != record.get("Description.inscription \"translated\"") && record.get("Description.inscription \"translated\"").length() > 0){
+    			Element childDescriptionEnglish = new Element("note", namespace);
+    			childDescriptionEnglish.setAttribute("lang", "eng");
+    			childDescriptionEnglish.setAttribute("type", "inscription");
+    			childDescriptionEnglish.addContent(record.get("Description.inscription \"translated\""));
+        		rootElement.addContent(childDescriptionEnglish);
+        		
+    		}
+    		
+    		//Description.inscription
+    		if(null != record.get("Description.inscription") && record.get("Description.inscription").length() > 0){
+    			Element childDescriptionEnglish = new Element("note", namespace);
+    			childDescriptionEnglish.setAttribute("lang", "arm");
+    			childDescriptionEnglish.setAttribute("type", "inscription");
+    			childDescriptionEnglish.addContent(record.get("Description.inscription"));
+        		rootElement.addContent(childDescriptionEnglish);
+        		
+    		}
+    		
     		//Subject.name 	<mods:subject lang="..."><mods:name>
     		//Subject.name (English)
     		if(null != record.get("Subject.name (English)") && record.get("Subject.name (English)").length() > 0){
@@ -361,6 +380,15 @@ public class ArmenianPosterMods
         		
     		}
     		
+    		//File name	<mods:identifier type="local">
+    		if(null != record.get("local ID") && record.get("local ID").length() > 0){
+    			Element childIdentifier = new Element("identifier", namespace);
+    			childIdentifier.setAttribute("type", "local");
+    			childIdentifier.addContent(record.get("local ID"));
+        		rootElement.addContent(childIdentifier);
+        		
+    		}
+    		
     		/*
     		 * "<accessCondition>
    <copyright copyright.status=""copyrighted"" publication.status=""published"">
@@ -390,6 +418,9 @@ public class ArmenianPosterMods
         		rootElement.addContent(childAccessCondition);
         		
     		}
+    		
+    		
+    		
     		
     		
     		
