@@ -1,6 +1,5 @@
 package edu.ucla.library.dep.GenerateMods;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,7 +8,6 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
-import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
@@ -24,7 +22,7 @@ public class ArmenianPosterMods
 {
     public static void main( String[] args ) throws IOException
     {
-    	Reader in = new FileReader("C:\\Users\\parinita ghorpade\\Downloads\\armenia_testbatch1.csv");
+    	Reader in = new FileReader("\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\armenia_testbatch1\\armenia_testbatch1_metadata.csv");
     	//Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader("File name","local ID ","Collection","Series","Title (English)","Title (Armenian)","Title (Russian)","Creator (English)","Creator (Armenian)","Creator (Russian)","Contributor.publisher","Publisher.placeOfOrigin","date.normalized","Language","Type.typeOfResource","Type.genre","PhysicalDescription","Description.note (English)","Description.note (Armenian)","\"Description.inscription \"\"translated\"\"\"","Description.inscription","Subject.name (English)","Subject.name (Armenian)","Subject.topic (English)","Subject.topic (Armenian)","Subject.geographic (English)","Subject.geographic (Armenian)","Rights.copyrightStatus","Rights.publicationStatus","Rights.servicesContact","Insitution/Repository").parse(in);
     	Iterable<CSVRecord> records = CSVFormat.EXCEL.withFirstRecordAsHeader().parse(in);
     	Namespace namespace = Namespace.getNamespace("mods", "http://www.loc.gov/mods/v3");
@@ -146,7 +144,7 @@ public class ArmenianPosterMods
     		
     		//Date.normalized	<mods:originInfo><mods:dateCreated encoding="iso8601">
     		
-    		if(null != record.get("date.normalized") && record.get("date.normalized").length() > 0){
+    		/*if(null != record.get("date.normalized") && record.get("date.normalized").length() > 0){
     			
         		Element childDate= new Element("dateCreated", namespace);
         		childDate.addContent(record.get("date.normalized"));
@@ -154,7 +152,43 @@ public class ArmenianPosterMods
         		childOriginInfo.addContent(childDate);
         		
         		
+    		}*/
+    		
+    		
+    		if(null != record.get("date (single)") && record.get("date (single)").length() > 0){
+				
+				Element childDate= new Element("dateCreated", namespace);
+				childDate.addContent(record.get("date (single)"));
+				childDate.setAttribute("encoding","iso8601");
+				childOriginInfo.addContent(childDate);
+				
+				
+			}
+    		
+    		
+			if(null != record.get("date (start)") && record.get("date (start)").length() > 0){
+			    			
+        		Element childDate= new Element("dateCreated", namespace);
+        		childDate.addContent(record.get("date (start)"));
+        		childDate.setAttribute("encoding","iso8601");
+        		childDate.setAttribute("point","start");
+        		childOriginInfo.addContent(childDate);
+        		
+        		
     		}
+			
+				
+			
+			if(null != record.get("date (end)") && record.get("date (end)").length() > 0){
+				
+				Element childDate= new Element("dateCreated", namespace);
+				childDate.addContent(record.get("date (end)"));
+				childDate.setAttribute("encoding","iso8601");
+				childDate.setAttribute("point","end");
+				childOriginInfo.addContent(childDate);
+				
+				
+			}
     		if(null != childOriginInfo.getChildren() && childOriginInfo.getChildren().size() > 0) {
     			rootElement.addContent(childOriginInfo);
     		}
@@ -240,19 +274,18 @@ public class ArmenianPosterMods
         		
     		}
     		
-    		if(null != record.get("Description.inscription \"translated\"") && record.get("Description.inscription \"translated\"").length() > 0){
+    		/*if(null != record.get("Description.inscription \"translated\"") && record.get("Description.inscription \"translated\"").length() > 0){
     			Element childDescriptionEnglish = new Element("note", namespace);
     			childDescriptionEnglish.setAttribute("lang", "eng");
     			childDescriptionEnglish.setAttribute("type", "inscription");
     			childDescriptionEnglish.addContent(record.get("Description.inscription \"translated\""));
         		rootElement.addContent(childDescriptionEnglish);
         		
-    		}
+    		}*/
     		
     		//Description.inscription
     		if(null != record.get("Description.inscription") && record.get("Description.inscription").length() > 0){
-    			Element childDescriptionEnglish = new Element("note", namespace);
-    			childDescriptionEnglish.setAttribute("lang", "arm");
+    			Element childDescriptionEnglish = new Element("note", namespace);    			
     			childDescriptionEnglish.setAttribute("type", "inscription");
     			childDescriptionEnglish.addContent(record.get("Description.inscription"));
         		rootElement.addContent(childDescriptionEnglish);
@@ -381,10 +414,10 @@ public class ArmenianPosterMods
     		}
     		
     		//File name	<mods:identifier type="local">
-    		if(null != record.get("local ID") && record.get("local ID").length() > 0){
+    		if(null != record.get("local ID ") && record.get("local ID ").length() > 0){
     			Element childIdentifier = new Element("identifier", namespace);
     			childIdentifier.setAttribute("type", "local");
-    			childIdentifier.addContent(record.get("local ID"));
+    			childIdentifier.addContent(record.get("local ID "));
         		rootElement.addContent(childIdentifier);
         		
     		}
