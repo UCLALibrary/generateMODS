@@ -30,7 +30,7 @@ public class UniversityArchiveMods {
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		
-    	Reader in = new FileReader("C:\\Users\\parinita ghorpade\\Downloads\\UniversityArchivesPart1.csv");
+    	Reader in = new FileReader("C:\\Users\\parinita ghorpade\\Downloads\\UniversityArchivesPart2.csv");
     	//Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader("File name","local ID ","Collection","Series","Title (English)","Title (Armenian)","Title (Russian)","Creator (English)","Creator (Armenian)","Creator (Russian)","Contributor.publisher","Publisher.placeOfOrigin","date.normalized","Language","Type.typeOfResource","Type.genre","PhysicalDescription","Description.note (English)","Description.note (Armenian)","\"Description.inscription \"\"translated\"\"\"","Description.inscription","Subject.name (English)","Subject.name (Armenian)","Subject.topic (English)","Subject.topic (Armenian)","Subject.geographic (English)","Subject.geographic (Armenian)","Rights.copyrightStatus","Rights.publicationStatus","Rights.servicesContact","Insitution/Repository").parse(in);
     	Iterable<CSVRecord> records = CSVFormat.EXCEL.withFirstRecordAsHeader().parse(in);
     	Namespace namespace = Namespace.getNamespace("mods", "http://www.loc.gov/mods/v3");
@@ -60,28 +60,6 @@ public class UniversityArchiveMods {
         		rootElement.addContent(childTitleInfo);
         		
     		}
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
-    		
     		
     		
     		// Type.typeOfResource	<mods:typeOfResource>
@@ -177,13 +155,13 @@ public class UniversityArchiveMods {
     		
     		
     		//Folder Name	<mods:relatedItem type="series" displayLabel="series"><titleInfo>
-    		if(record.isSet("Folder Name") && record.isSet("relation.isPartOf")){
+    		if(record.isSet("relation.isPartOf")){
     			Element childRelatedItem = new Element("relatedItem", namespace);
     			childRelatedItem.setAttribute("type", "host");
     			
         		Element childTitleInfo = new Element("titleInfo", namespace);
         		Element childTitle = new Element("title", namespace);
-        		childTitle.addContent(record.get("relation.isPartOf")+":"+record.get("Folder Name"));    		
+        		childTitle.addContent(record.get("relation.isPartOf"));    		
         		childTitleInfo.addContent(childTitle);
         		childRelatedItem.addContent(childTitleInfo);
         		rootElement.addContent(childRelatedItem);
