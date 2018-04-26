@@ -42,105 +42,135 @@ public class ArmenianPosterMods
         	
     		
     		// Create English, Armenian and Russian titles
-    		if(null != record.get("Title (English)") && record.get("Title (English)").length() > 0){
-    			Element childTitleInfo = new Element("titleInfo", namespace);
-        		Element childTitle = new Element("title", namespace);
-        		childTitle.addContent(record.get("Title (English)"));
-        		childTitle.setAttribute("lang","eng");
-        		
-        		childTitleInfo.addContent(childTitle);
-        		rootElement.addContent(childTitleInfo);
-        		
+    		if(record.isSet("Title (English)")){
+    			if(null != record.get("Title (English)") && record.get("Title (English)").length() > 0){
+        			Element childTitleInfo = new Element("titleInfo", namespace);
+            		Element childTitle = new Element("title", namespace);
+            		childTitle.addContent(record.get("Title (English)"));
+            		childTitle.setAttribute("lang","eng");
+            		
+            		childTitleInfo.addContent(childTitle);
+            		rootElement.addContent(childTitleInfo);
+            		
+        		}
     		}
     		
     		
-    		if(null != record.get("Title (Armenian)") && record.get("Title (Armenian)").length() > 0){
-    			Element childTitleInfo = new Element("titleInfo", namespace);
-        		Element childTitle = new Element("title", namespace);
-        		childTitle.addContent(record.get("Title (Armenian)"));
-        		childTitle.setAttribute("lang","arm");
-        		childTitleInfo.addContent(childTitle);
-        		rootElement.addContent(childTitleInfo);
-        		
+    		if(record.isSet("Title (Armenian)")){
+    			if(null != record.get("Title (Armenian)") && record.get("Title (Armenian)").length() > 0){
+        			Element childTitleInfo = new Element("titleInfo", namespace);
+            		Element childTitle = new Element("title", namespace);
+            		childTitle.addContent(record.get("Title (Armenian)"));
+            		childTitle.setAttribute("lang","arm");
+            		childTitleInfo.addContent(childTitle);
+            		rootElement.addContent(childTitleInfo);
+            		
+        		}
     		}
     		
     		
-    		if(null != record.get("Title (Russian)") && record.get("Title (Russian)").length() > 0){
-    			Element childTitleInfo = new Element("titleInfo", namespace);
-        		Element childTitle = new Element("title", namespace);
-        		childTitle.addContent(record.get("Title (Russian)"));
-        		childTitle.setAttribute("lang","rus");
-        		
-        		childTitleInfo.addContent(childTitle);
-        		rootElement.addContent(childTitleInfo);
-        		
+    		if(record.isSet("Title (Russian)")){
+    			if(null != record.get("Title (Russian)") && record.get("Title (Russian)").length() > 0){
+        			Element childTitleInfo = new Element("titleInfo", namespace);
+            		Element childTitle = new Element("title", namespace);
+            		childTitle.addContent(record.get("Title (Russian)"));
+            		childTitle.setAttribute("lang","rus");
+            		
+            		childTitleInfo.addContent(childTitle);
+            		rootElement.addContent(childTitleInfo);
+            		
+        		}
     		}
+    		
     		
     		
     		// create name element for eng, rus and arm
-    		
-    		if(null != record.get("Creator (English)") && record.get("Creator (English)").length() > 0){
-    			Element childName = new Element("name", namespace);
-    			for( String namePart : record.get("Creator (English)").split(regex)) {
-    				Element childNamePart = new Element("namePart", namespace);
-            		childNamePart.addContent(namePart);
-            		childName.addContent(childNamePart);
-    			}
-        		
-        		childName.setAttribute("lang","eng");
-        		
-        		rootElement.addContent(childName);
-        		
+    		if(record.isSet("Creator (English)")){
+    			if(null != record.get("Creator (English)") && record.get("Creator (English)").length() > 0){
+        			Element childName = new Element("name", namespace);
+        			for( String namePart : record.get("Creator (English)").split(regex)) {
+        				Element childNamePart = new Element("namePart", namespace);
+                		childNamePart.addContent(namePart);
+                		childName.addContent(childNamePart);
+                		
+        			}
+        			Element childNameRole = new Element("role",namespace);
+            		Element childNameRoleTerm = new Element("roleTerm",namespace);
+            		childNameRoleTerm.addContent("creator");
+            		childNameRole.addContent(childNameRoleTerm);
+            		childName.addContent(childNameRole);
+            		childName.setAttribute("lang","eng");
+            		
+            		rootElement.addContent(childName);
+            		
+        		}
     		}
     		
-    		if(null != record.get("Creator (Armenian)") && record.get("Creator (Armenian)").length() > 0){
-    			Element childName = new Element("name", namespace);
-    			for( String namePart : record.get("Creator (Armenian)").split(regex)) {
-    				Element childNamePart = new Element("namePart", namespace);
-            		childNamePart.addContent(namePart);
-            		childName.addContent(childNamePart);
-    			}
-        		
-        		childName.setAttribute("lang","arm");
-        		
-        		rootElement.addContent(childName);
-        		
+    		if(record.isSet("Creator (Armenian)")){
+    			if(null != record.get("Creator (Armenian)") && record.get("Creator (Armenian)").length() > 0){
+        			Element childName = new Element("name", namespace);
+        			for( String namePart : record.get("Creator (Armenian)").split(regex)) {
+        				Element childNamePart = new Element("namePart", namespace);
+                		childNamePart.addContent(namePart);
+                		childName.addContent(childNamePart);
+        			}
+            		
+            		childName.setAttribute("lang","arm");
+            		Element childNameRole = new Element("role",namespace);
+            		Element childNameRoleTerm = new Element("roleTerm",namespace);
+            		childNameRoleTerm.addContent("creator");
+            		childNameRole.addContent(childNameRoleTerm);
+            		childName.addContent(childNameRole);
+            		rootElement.addContent(childName);
+            		
+        		}
     		}
     		
-    		if(null != record.get("Creator (Russian)") && record.get("Creator (Russian)").length() > 0){
-    			Element childName = new Element("name", namespace);
-    			for( String namePart : record.get("Creator (Russian)").split(regex)) {
-    				Element childNamePart = new Element("namePart", namespace);
-            		childNamePart.addContent(namePart);
-            		childName.addContent(childNamePart);
-    			}
-        		childName.setAttribute("lang", "rus");       		
-        		
-        		rootElement.addContent(childName);
-        		
+    		if(record.isSet("Creator (Russian)")){
+    			if(null != record.get("Creator (Russian)") && record.get("Creator (Russian)").length() > 0){
+        			Element childName = new Element("name", namespace);
+        			for( String namePart : record.get("Creator (Russian)").split(regex)) {
+        				Element childNamePart = new Element("namePart", namespace);
+                		childNamePart.addContent(namePart);
+                		childName.addContent(childNamePart);
+        			}
+            		childName.setAttribute("lang", "rus");       		
+            		Element childNameRole = new Element("role",namespace);
+            		Element childNameRoleTerm = new Element("roleTerm",namespace);
+            		childNameRoleTerm.addContent("creator");
+            		childNameRole.addContent(childNameRoleTerm);
+            		childName.addContent(childNameRole);
+            		rootElement.addContent(childName);
+            		
+        		}
     		}
+    		
     		Element childOriginInfo = new Element("originInfo", namespace);
     		//Contributor.publisher	<mods:originInfo><mods:publisher>
-    		
-    		if(null != record.get("Contributor.publisher") && record.get("Contributor.publisher").length() > 0){
-    			
-        		Element childPublisher = new Element("publisher", namespace);
-        		childPublisher.addContent(record.get("Contributor.publisher"));
-        		childOriginInfo.addContent(childPublisher);
-        		
-        		
+    		if(record.isSet("Contributor.publisher")){
+    			if(null != record.get("Contributor.publisher") && record.get("Contributor.publisher").length() > 0){
+        			
+            		Element childPublisher = new Element("publisher", namespace);
+            		childPublisher.addContent(record.get("Contributor.publisher"));
+            		childOriginInfo.addContent(childPublisher);
+            		
+            		
+        		}
     		}
+    		
     		
     		//Publisher.placeOfOrigin	<mods:originInfo><mods:place>
-    		
-    		if(null != record.get("Publisher.placeOfOrigin") && record.get("Publisher.placeOfOrigin").length() > 0){
-    			
-        		Element childPlace = new Element("place", namespace);
-        		childPlace.addContent(record.get("Publisher.placeOfOrigin"));
-        		childOriginInfo.addContent(childPlace);
-        		
-        		
+    		if(record.isSet("Publisher.placeOfOrigin")){
+    			if(null != record.get("Publisher.placeOfOrigin") && record.get("Publisher.placeOfOrigin").length() > 0){
+        			
+            		Element childPlace = new Element("place", namespace);
+            		childPlace.addContent(record.get("Publisher.placeOfOrigin"));
+            		childOriginInfo.addContent(childPlace);
+            		
+            		
+        		}
     		}
+    		
     		
     		//Date.normalized	<mods:originInfo><mods:dateCreated encoding="iso8601">
     		
@@ -154,41 +184,47 @@ public class ArmenianPosterMods
         		
     		}*/
     		
+    		if(record.isSet("date (single)")){
+    			if(null != record.get("date (single)") && record.get("date (single)").length() > 0){
+    				
+    				Element childDate= new Element("dateCreated", namespace);
+    				childDate.addContent(record.get("date (single)"));
+    				childDate.setAttribute("encoding","iso8601");
+    				childOriginInfo.addContent(childDate);
+    				
+    				
+    			}
+    		}
     		
-    		if(null != record.get("date (single)") && record.get("date (single)").length() > 0){
-				
-				Element childDate= new Element("dateCreated", namespace);
-				childDate.addContent(record.get("date (single)"));
-				childDate.setAttribute("encoding","iso8601");
-				childOriginInfo.addContent(childDate);
-				
-				
-			}
     		
-    		
-			if(null != record.get("date (start)") && record.get("date (start)").length() > 0){
-			    			
-        		Element childDate= new Element("dateCreated", namespace);
-        		childDate.addContent(record.get("date (start)"));
-        		childDate.setAttribute("encoding","iso8601");
-        		childDate.setAttribute("point","start");
-        		childOriginInfo.addContent(childDate);
-        		
-        		
+    		if(record.isSet("date (start)")){
+    			if(null != record.get("date (start)") && record.get("date (start)").length() > 0){
+	    			
+            		Element childDate= new Element("dateCreated", namespace);
+            		childDate.addContent(record.get("date (start)"));
+            		childDate.setAttribute("encoding","iso8601");
+            		childDate.setAttribute("point","start");
+            		childOriginInfo.addContent(childDate);
+            		
+            		
+        		}
     		}
 			
-				
 			
-			if(null != record.get("date (end)") && record.get("date (end)").length() > 0){
-				
-				Element childDate= new Element("dateCreated", namespace);
-				childDate.addContent(record.get("date (end)"));
-				childDate.setAttribute("encoding","iso8601");
-				childDate.setAttribute("point","end");
-				childOriginInfo.addContent(childDate);
-				
-				
-			}
+    		if(record.isSet("date (end)")){
+    			if(null != record.get("date (end)") && record.get("date (end)").length() > 0){
+    				
+    				Element childDate= new Element("dateCreated", namespace);
+    				childDate.addContent(record.get("date (end)"));
+    				childDate.setAttribute("encoding","iso8601");
+    				childDate.setAttribute("point","end");
+    				childOriginInfo.addContent(childDate);
+    				
+    				
+    			}
+    		}	
+			
+			
     		if(null != childOriginInfo.getChildren() && childOriginInfo.getChildren().size() > 0) {
     			rootElement.addContent(childOriginInfo);
     		}
@@ -200,79 +236,94 @@ public class ArmenianPosterMods
    			*<languageTerm type=""text"">
    			*<languageTerm type=""code"" authority=""iso639-2b"">"
     		 */
-    		
-    		if(null != record.get("Language") && record.get("Language").length() > 0){
-    			
-    			for( String languagecode : record.get("Language").split(regex)) {
-    				Element childLanguage = new Element("language", namespace);
-            		Element childLanguageTermText= new Element("languageTerm", namespace); 
-            		switch(languagecode) {
-            		case "eng":childLanguageTermText.addContent("English");
-            					break;
-            		case "arm":childLanguageTermText.addContent("Armenian");
-								break;
-            		case "rus":childLanguageTermText.addContent("Russian");
-								break;
-            		}
-            		
-            		childLanguageTermText.setAttribute("type", "text");
-            		childLanguage.addContent(childLanguageTermText);
-            		Element childLanguageTermCode= new Element("languageTerm", namespace);            		
-            		childLanguageTermCode.addContent(languagecode);
-            		childLanguageTermCode.setAttribute("type", "code");
-            		childLanguageTermCode.setAttribute("encoding", "iso639-2b");
-            		childLanguage.addContent(childLanguageTermCode);
-            		rootElement.addContent(childLanguage);
-    			}
-    			       		
+    		if(record.isSet("Language")){
+    			if(null != record.get("Language") && record.get("Language").length() > 0){
+        			
+        			for( String languagecode : record.get("Language").split(regex)) {
+        				Element childLanguage = new Element("language", namespace);
+                		/*Element childLanguageTermText= new Element("languageTerm", namespace); 
+                		switch(languagecode) {
+                		case "eng":childLanguageTermText.addContent("English");
+                					break;
+                		case "arm":childLanguageTermText.addContent("Armenian");
+    								break;
+                		case "rus":childLanguageTermText.addContent("Russian");
+    								break;
+                		}
+                		
+                		childLanguageTermText.setAttribute("type", "text");
+                		childLanguage.addContent(childLanguageTermText);*/
+                		Element childLanguageTermCode= new Element("languageTerm", namespace);            		
+                		childLanguageTermCode.addContent(languagecode);
+                		childLanguageTermCode.setAttribute("type", "code");
+                		childLanguageTermCode.setAttribute("encoding", "iso639-2b");
+                		childLanguage.addContent(childLanguageTermCode);
+                		rootElement.addContent(childLanguage);
+        			}
+        			       		
+        		}
     		}
+    		
     		
     		// Type.typeOfResource	<mods:typeOfResource>
-    		if(null != record.get("Type.typeOfResource") && record.get("Type.typeOfResource").length() > 0){
-    			Element childTypeOfResource = new Element("typeOfResource", namespace);
-    			childTypeOfResource.addContent(record.get("Type.typeOfResource"));
-        		rootElement.addContent(childTypeOfResource);
-        		
+    		if(record.isSet("Type.typeOfResource")){
+    			if(null != record.get("Type.typeOfResource") && record.get("Type.typeOfResource").length() > 0){
+        			Element childTypeOfResource = new Element("typeOfResource", namespace);
+        			childTypeOfResource.addContent(record.get("Type.typeOfResource"));
+            		rootElement.addContent(childTypeOfResource);
+            		
+        		}
     		}
+    		
     		
     		//Type.genre	<mods:genre>
-    		
-    		if(null != record.get("Type.genre") && record.get("Type.genre").length() > 0){
-    			for(String genre : record.get("Type.genre").split(regex))
-    			{
-    				Element childTypeGenre = new Element("genre", namespace);
-        			childTypeGenre.addContent(genre);
-            		rootElement.addContent(childTypeGenre);
-    			}
-        		
+    		if(record.isSet("Type.genre")){
+    			if(null != record.get("Type.genre") && record.get("Type.genre").length() > 0){
+        			for(String genre : record.get("Type.genre").split(regex))
+        			{
+        				Element childTypeGenre = new Element("genre", namespace);
+            			childTypeGenre.addContent(genre);
+                		rootElement.addContent(childTypeGenre);
+        			}
+            		
+        		}
     		}
+    		
     		
     		//PhysicalDescription	<mods:physicalDescription>
-    		if(null != record.get("PhysicalDescription") && record.get("PhysicalDescription").length() > 0){
-    			Element childPhysicalDescription = new Element("physicalDescription", namespace);
-    			Element extent = new Element("extent",namespace);
-    			extent.addContent(record.get("PhysicalDescription"));
-    			childPhysicalDescription.addContent(extent);
-        		rootElement.addContent(childPhysicalDescription);
-        		
+    		if(record.isSet("PhysicalDescription")){
+    			if(null != record.get("PhysicalDescription") && record.get("PhysicalDescription").length() > 0){
+        			Element childPhysicalDescription = new Element("physicalDescription", namespace);
+        			Element extent = new Element("extent",namespace);
+        			extent.addContent(record.get("PhysicalDescription"));
+        			childPhysicalDescription.addContent(extent);
+            		rootElement.addContent(childPhysicalDescription);
+            		
+        		}
     		}
+    		
     		
     		//Description.note	<mods:note lang="...">
-    		if(null != record.get("Description.note (English)") && record.get("Description.note (English)").length() > 0){
-    			Element childDescriptionEnglish = new Element("note", namespace);
-    			childDescriptionEnglish.setAttribute("lang", "eng");
-    			childDescriptionEnglish.addContent(record.get("Description.note (English)"));
-        		rootElement.addContent(childDescriptionEnglish);
-        		
+    		if(record.isSet("Description.note (English)")){
+    			if(null != record.get("Description.note (English)") && record.get("Description.note (English)").length() > 0){
+        			Element childDescriptionEnglish = new Element("abstract", namespace);
+        			childDescriptionEnglish.setAttribute("lang", "eng");
+        			childDescriptionEnglish.addContent(record.get("Description.note (English)"));
+            		rootElement.addContent(childDescriptionEnglish);
+            		
+        		}
     		}
     		
-    		if(null != record.get("Description.note (Armenian)") && record.get("Description.note (Armenian)").length() > 0){
-    			Element childDescriptionArmenian = new Element("note", namespace);
-    			childDescriptionArmenian.setAttribute("lang", "arm");
-    			childDescriptionArmenian.addContent(record.get("Description.note (Armenian)"));
-        		rootElement.addContent(childDescriptionArmenian);
-        		
+    		if(record.isSet("Description.note (Armenian)")){
+    			if(null != record.get("Description.note (Armenian)") && record.get("Description.note (Armenian)").length() > 0){
+        			Element childDescriptionArmenian = new Element("abstract", namespace);
+        			childDescriptionArmenian.setAttribute("lang", "arm");
+        			childDescriptionArmenian.addContent(record.get("Description.note (Armenian)"));
+            		rootElement.addContent(childDescriptionArmenian);
+            		
+        		}
     		}
+    		
     		
     		/*if(null != record.get("Description.inscription \"translated\"") && record.get("Description.inscription \"translated\"").length() > 0){
     			Element childDescriptionEnglish = new Element("note", namespace);
@@ -284,143 +335,177 @@ public class ArmenianPosterMods
     		}*/
     		
     		//Description.inscription
-    		if(null != record.get("Description.inscription") && record.get("Description.inscription").length() > 0){
-    			Element childDescriptionEnglish = new Element("note", namespace);    			
-    			childDescriptionEnglish.setAttribute("type", "inscription");
-    			childDescriptionEnglish.addContent(record.get("Description.inscription"));
-        		rootElement.addContent(childDescriptionEnglish);
-        		
+    		if(record.isSet("Description.inscription")){
+    			if(null != record.get("Description.inscription") && record.get("Description.inscription").length() > 0){
+        			Element childDescriptionEnglish = new Element("note", namespace);    			
+        			childDescriptionEnglish.setAttribute("type", "inscription");
+        			childDescriptionEnglish.addContent(record.get("Description.inscription"));
+            		rootElement.addContent(childDescriptionEnglish);
+            		
+        		}
     		}
+    		
     		
     		//Subject.name 	<mods:subject lang="..."><mods:name>
     		//Subject.name (English)
-    		if(null != record.get("Subject.name (English)") && record.get("Subject.name (English)").length() > 0){
-    			Element childSubject = new Element("subject", namespace);
-    			childSubject.setAttribute("lang", "eng");
-    			Element childName = new Element("name", namespace);
-        		Element childNamePart = new Element("namePart", namespace);
-        		childNamePart.addContent("Subject.name (English)");
-        		childName.addContent(childNamePart);
-        		childSubject.addContent(childName);
-        		rootElement.addContent(childSubject);
-        		
+    		if(record.isSet("Subject.name (English)")){
+    			if(null != record.get("Subject.name (English)") && record.get("Subject.name (English)").length() > 0){
+        			Element childSubject = new Element("subject", namespace);
+        			childSubject.setAttribute("lang", "eng");
+        			Element childName = new Element("name", namespace);
+            		Element childNamePart = new Element("namePart", namespace);
+            		childNamePart.addContent(record.get("Subject.name (English)"));
+            		childName.addContent(childNamePart);
+            		childSubject.addContent(childName);
+            		rootElement.addContent(childSubject);
+            		
+        		}
     		}
     		
     		
-    		if(null != record.get("Subject.name (Armenian)") && record.get("Subject.name (Armenian)").length() > 0){
-    			Element childSubject = new Element("subject", namespace);
-    			childSubject.setAttribute("lang", "arm");
-    			Element childName = new Element("name", namespace);
-        		Element childNamePart = new Element("namePart", namespace);
-        		childNamePart.addContent("Subject.name (Armenian)");
-        		childName.addContent(childNamePart);
-        		childSubject.addContent(childName);
-        		rootElement.addContent(childSubject);
-        		
+    		if(record.isSet("Subject.name (Armenian)")){
+    			if(null != record.get("Subject.name (Armenian)") && record.get("Subject.name (Armenian)").length() > 0){
+        			Element childSubject = new Element("subject", namespace);
+        			childSubject.setAttribute("lang", "arm");
+        			Element childName = new Element("name", namespace);
+            		Element childNamePart = new Element("namePart", namespace);
+            		childNamePart.addContent(record.get("Subject.name (Armenian)"));
+            		childName.addContent(childNamePart);
+            		childSubject.addContent(childName);
+            		rootElement.addContent(childSubject);
+            		
+        		}
     		}
+    		
     		
     		//Subject.topic 	<mods:subject lang="..."><mods:topic>
-    		if(null != record.get("Subject.topic (English)") && record.get("Subject.topic (English)").length() > 0){
-    			Element childSubject = new Element("subject", namespace);
-    			childSubject.setAttribute("lang", "eng");
-    			for( String topic : record.get("Subject.topic (English)").split(regex)) {
-    				Element childTopic = new Element("topic", namespace);
-            		childTopic.addContent(topic);
-            		childSubject.addContent(childTopic);
-    			}
-        		
-        		rootElement.addContent(childSubject);
-        		
+    		if(record.isSet("Subject.topic (English)")){
+    			if(null != record.get("Subject.topic (English)") && record.get("Subject.topic (English)").length() > 0){
+        			Element childSubject = new Element("subject", namespace);
+        			childSubject.setAttribute("lang", "eng");
+        			for( String topic : record.get("Subject.topic (English)").split(regex)) {
+        				Element childTopic = new Element("topic", namespace);
+                		childTopic.addContent(topic);
+                		childSubject.addContent(childTopic);
+        			}
+            		
+            		rootElement.addContent(childSubject);
+            		
+        		}
     		}
     		
-    		if(null != record.get("Subject.topic (Armenian)") && record.get("Subject.topic (Armenian)").length() > 0){
-    			Element childSubject = new Element("subject", namespace);
-    			childSubject.setAttribute("lang", "arm");
-    			for( String topic : record.get("Subject.topic (Armenian)").split(regex)) {
-    				Element childTopic = new Element("topic", namespace);
-            		childTopic.addContent(topic);
-            		childSubject.addContent(childTopic);
-    			}
-        		rootElement.addContent(childSubject);
+    		
+    		if(record.isSet("Subject.topic (Armenian)")){
+    			if(null != record.get("Subject.topic (Armenian)") && record.get("Subject.topic (Armenian)").length() > 0){
+        			Element childSubject = new Element("subject", namespace);
+        			childSubject.setAttribute("lang", "arm");
+        			for( String topic : record.get("Subject.topic (Armenian)").split(regex)) {
+        				Element childTopic = new Element("topic", namespace);
+                		childTopic.addContent(topic);
+                		childSubject.addContent(childTopic);
+        			}
+            		rootElement.addContent(childSubject);
+            		
+        		}
         		
     		}
     		
     		//Subject.geographic	<mods:subject lang="..."><mods:geographic>
-    		if(null != record.get("Subject.geographic (English)") && record.get("Subject.geographic (English)").length() > 0){
-    			Element childSubject = new Element("subject", namespace);
-    			childSubject.setAttribute("lang", "eng");
-        		Element childGeographic = new Element("geographic", namespace);
-        		childGeographic.addContent(record.get("Subject.geographic (English)"));
-        		childSubject.addContent(childGeographic);
-        		rootElement.addContent(childSubject);
-        		
+    		if(record.isSet("Subject.geographic (English)")){
+    			if(null != record.get("Subject.geographic (English)") && record.get("Subject.geographic (English)").length() > 0){
+        			Element childSubject = new Element("subject", namespace);
+        			childSubject.setAttribute("lang", "eng");
+            		Element childGeographic = new Element("geographic", namespace);
+            		childGeographic.addContent(record.get("Subject.geographic (English)"));
+            		childSubject.addContent(childGeographic);
+            		rootElement.addContent(childSubject);
+            		
+        		}
     		}
     		
-    		if(null != record.get("Subject.geographic (Armenian)") && record.get("Subject.geographic (Armenian)").length() > 0){
-    			Element childSubject = new Element("subject", namespace);
-    			childSubject.setAttribute("lang", "arm");
-        		Element childGeographic = new Element("geographic", namespace);
-        		childGeographic.addContent(record.get("Subject.geographic (Armenian)"));
-        		childSubject.addContent(childGeographic);
-        		rootElement.addContent(childSubject);
-        		
+    		if(record.isSet("Subject.geographic (Armenian)")){
+    			if(null != record.get("Subject.geographic (Armenian)") && record.get("Subject.geographic (Armenian)").length() > 0){
+        			Element childSubject = new Element("subject", namespace);
+        			childSubject.setAttribute("lang", "arm");
+            		Element childGeographic = new Element("geographic", namespace);
+            		childGeographic.addContent(record.get("Subject.geographic (Armenian)"));
+            		childSubject.addContent(childGeographic);
+            		rootElement.addContent(childSubject);
+            		
+        		}
     		}
+    		
     		
     		//Collection	<mods:relatedItem type="series" displayLabel="collection"><titleInfo>
-    		if(null != record.get("Collection") && record.get("Collection").length() > 0){
-    			Element childRelatedItem = new Element("relatedItem", namespace);
-    			childRelatedItem.setAttribute("type", "series");
-    			childRelatedItem.setAttribute("displayLabel", "collection");
-        		Element childTitleInfo = new Element("titleInfo", namespace);
-        		Element childTitle = new Element("title", namespace);
-        		childTitle.addContent(record.get("Collection"));    		
-        		childTitleInfo.addContent(childTitle);
-        		childRelatedItem.addContent(childTitleInfo);
-        		rootElement.addContent(childRelatedItem);
+    		if(record.isSet("Collection")){
+    			if(null != record.get("Collection") && record.get("Collection").length() > 0){
+        			Element childRelatedItem = new Element("relatedItem", namespace);
+        			childRelatedItem.setAttribute("type", "host");
+        			childRelatedItem.setAttribute("displayLabel", "collection");
+            		Element childTitleInfo = new Element("titleInfo", namespace);
+            		Element childTitle = new Element("title", namespace);
+            		childTitle.addContent(record.get("Collection"));    		
+            		childTitleInfo.addContent(childTitle);
+            		childRelatedItem.addContent(childTitleInfo);
+            		rootElement.addContent(childRelatedItem);
+        		}
     		}
+    		
     		
     		
     		//Series	<mods:relatedItem type="series" displayLabel="series"><titleInfo>
-    		if(null != record.get("Series") && record.get("Series").length() > 0){
-    			Element childRelatedItem = new Element("relatedItem", namespace);
-    			childRelatedItem.setAttribute("type", "series");
-    			childRelatedItem.setAttribute("displayLabel", "series");
-        		Element childTitleInfo = new Element("titleInfo", namespace);
-        		Element childTitle = new Element("title", namespace);
-        		childTitle.addContent(record.get("Series"));    		
-        		childTitleInfo.addContent(childTitle);
-        		childRelatedItem.addContent(childTitleInfo);
-        		rootElement.addContent(childRelatedItem);
+    		if(record.isSet("Series")){
+    			if(null != record.get("Series") && record.get("Series").length() > 0){
+        			Element childRelatedItem = new Element("relatedItem", namespace);
+        			childRelatedItem.setAttribute("type", "series");
+        			childRelatedItem.setAttribute("displayLabel", "series");
+            		Element childTitleInfo = new Element("titleInfo", namespace);
+            		Element childTitle = new Element("title", namespace);
+            		childTitle.addContent(record.get("Series"));    		
+            		childTitleInfo.addContent(childTitle);
+            		childRelatedItem.addContent(childTitleInfo);
+            		rootElement.addContent(childRelatedItem);
+        		}
     		}
+    		
     		
     		//Insitution/Repository	"<location><physicalLocation>"
-    		if(null != record.get("Insitution/Repository") && record.get("Insitution/Repository").length() > 0){
-    			Element childLocation = new Element("location", namespace);
-    			Element childPhysicalLocation = new Element("physicalLocation", namespace);
-    			childPhysicalLocation.addContent(record.get("Insitution/Repository"));
-        		childLocation.addContent(childPhysicalLocation);
-        		rootElement.addContent(childLocation);
-        		
+    		if(record.isSet("Insitution/Repository")){
+    			if(null != record.get("Insitution/Repository") && record.get("Insitution/Repository").length() > 0){
+        			Element childLocation = new Element("location", namespace);
+        			Element childPhysicalLocation = new Element("physicalLocation", namespace);
+        			childPhysicalLocation.addContent(record.get("Insitution/Repository"));
+            		childLocation.addContent(childPhysicalLocation);
+            		rootElement.addContent(childLocation);
+            		
+        		}
+    		}
+    		
+    		
+    		
+    		//File name	<mods:identifier type="local">
+    		if(record.isSet("File name")){
+    			if(null != record.get("File name") && record.get("File name").length() > 0){
+        			Element childIdentifier = new Element("identifier", namespace);
+        			childIdentifier.setAttribute("type", "local");
+        			childIdentifier.addContent(record.get("File name"));
+            		rootElement.addContent(childIdentifier);
+            		
+        		}
     		}
     		
     		
     		//File name	<mods:identifier type="local">
-    		if(null != record.get("File name") && record.get("File name").length() > 0){
-    			Element childIdentifier = new Element("identifier", namespace);
-    			childIdentifier.setAttribute("type", "local");
-    			childIdentifier.addContent(record.get("File name"));
-        		rootElement.addContent(childIdentifier);
-        		
+    		if(record.isSet("local ID ")){
+    			if(null != record.get("local ID ") && record.get("local ID ").length() > 0){
+        			Element childIdentifier = new Element("identifier", namespace);
+        			childIdentifier.setAttribute("type", "local");
+        			childIdentifier.addContent(record.get("local ID "));
+            		rootElement.addContent(childIdentifier);
+            		
+        		}
     		}
     		
-    		//File name	<mods:identifier type="local">
-    		if(null != record.get("local ID ") && record.get("local ID ").length() > 0){
-    			Element childIdentifier = new Element("identifier", namespace);
-    			childIdentifier.setAttribute("type", "local");
-    			childIdentifier.addContent(record.get("local ID "));
-        		rootElement.addContent(childIdentifier);
-        		
-    		}
     		
     		/*
     		 * "<accessCondition>
@@ -430,27 +515,30 @@ public class ArmenianPosterMods
 
 
     		 */
-    		
-    		if(null != record.get("Rights.copyrightStatus") && record.get("Rights.copyrightStatus").trim().length() > 0){
-    			Element childAccessCondition = new Element("accessCondition", namespace);
-    			Element childCopyright = new Element("copyright", namespace);
-    			childCopyright.setAttribute("copyright.status",record.get("Rights.copyrightStatus"));
-    			if(null != record.get("Rights.publicationStatus") && record.get("Rights.publicationStatus").trim().length() > 0) {
-    				childCopyright.setAttribute("publication.status", record.get("Rights.publicationStatus"));
-    			}
-    			childCopyright.setAttribute("schemaLocation","http://www.cdlib.org/inside/diglib/copyrightMD http://www.cdlib.org/groups/rmg/docs/copyrightMD.xsd", namespacexsi);
-    			//childIdentifier.setAttribute("type", "local");
-    			if(null != record.get("Rights.servicesContact") && record.get("Rights.servicesContact").trim().length() > 0) {
-    				Element services = new Element("services",namespace);
-    				Element contact = new Element("contact",namespace);
-    				contact.addContent(record.get("Rights.servicesContact"));
-    				services.addContent(contact);
-    				childCopyright.addContent(services);
-    			}
-    			childAccessCondition.addContent(childCopyright);
-        		rootElement.addContent(childAccessCondition);
-        		
+    		if(record.isSet("Rights.copyrightStatus")){
+    			if(null != record.get("Rights.copyrightStatus") && record.get("Rights.copyrightStatus").trim().length() > 0){
+        			Element childAccessCondition = new Element("accessCondition", namespace);
+        			Element childCopyright = new Element("copyright", namespace);
+        			childCopyright.setAttribute("copyright.status",record.get("Rights.copyrightStatus"));
+        			if(null != record.get("Rights.publicationStatus") && record.get("Rights.publicationStatus").trim().length() > 0) {
+        				childCopyright.setAttribute("publication.status", record.get("Rights.publicationStatus"));
+        			}
+        			childCopyright.setAttribute("schemaLocation","http://www.cdlib.org/inside/diglib/copyrightMD http://www.cdlib.org/groups/rmg/docs/copyrightMD.xsd", namespacexsi);
+        			//childIdentifier.setAttribute("type", "local");
+        			if(null != record.get("Rights.servicesContact") && record.get("Rights.servicesContact").trim().length() > 0) {
+        				Element services = new Element("services",namespace);
+        				Element contact = new Element("contact",namespace);
+        				contact.addContent(record.get("Rights.servicesContact"));
+        				services.addContent(contact);
+        				childCopyright.addContent(services);
+        			}
+        			childAccessCondition.addContent(childCopyright);
+            		rootElement.addContent(childAccessCondition);
+            		
+        		}
     		}
+    		
+    		
     		
     		
     		
