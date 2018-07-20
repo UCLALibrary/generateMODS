@@ -37,7 +37,7 @@ public class UniversityArchiveMods {
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		
-    	Reader in = new FileReader("\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\ua_batch_2\\ua_batch2.csv");
+    	Reader in = new FileReader("C:\\Users\\parinita ghorpade\\Downloads\\ua_batch_6.csv");
     	
     	Iterable<CSVRecord> records = CSVFormat.EXCEL.withFirstRecordAsHeader().parse(in);
     	Namespace namespace = Namespace.getNamespace("mods", "http://www.loc.gov/mods/v3");
@@ -237,11 +237,11 @@ public class UniversityArchiveMods {
 		    		}
 		    		
 		    		//Insitution/Repository	"<location><physicalLocation>"
-		    		if(record.isSet("Institution/Reposity")){
-		    			if(!record.get("Institution/Reposity").isEmpty()) {
+		    		if(record.isSet("Institution/Repository")){
+		    			if(!record.get("Institution/Repository").isEmpty()) {
 		    				Element childLocation = new Element("location", namespace);
 		        			Element childPhysicalLocation = new Element("physicalLocation", namespace);
-		        			childPhysicalLocation.addContent(record.get("Institution/Reposity"));
+		        			childPhysicalLocation.addContent(record.get("Institution/Repository"));
 		            		childLocation.addContent(childPhysicalLocation);
 		            		rootElement.addContent(childLocation);
 		    			}
@@ -270,19 +270,19 @@ public class UniversityArchiveMods {
 		
 		    		 */
 		    		
-		    		if(record.isSet("Rights.copyrightStatus")){
+		    		if(record.isSet("rights.copyrightStatus")){
 		    			Element childAccessCondition = new Element("accessCondition", namespace);
 		    			Element childCopyright = new Element("copyright", namespace);
-		    			childCopyright.setAttribute("copyright.status",record.get("Rights.copyrightStatus"));
-		    			if(record.isSet("Rights.publicationStatus")) {
-		    				childCopyright.setAttribute("publication.status", record.get("Rights.publicationStatus"));
+		    			childCopyright.setAttribute("copyright.status",record.get("rights.copyrightStatus"));
+		    			if(record.isSet("rights.publicationStatus")) {
+		    				childCopyright.setAttribute("publication.status", record.get("rights.publicationStatus"));
 		    			}
 		    			childCopyright.setAttribute("schemaLocation","http://www.cdlib.org/inside/diglib/copyrightMD http://www.cdlib.org/groups/rmg/docs/copyrightMD.xsd", namespacexsi);
 		    			//childIdentifier.setAttribute("type", "local");
-		    			if(record.isSet("Rights.servicesContact")) {
+		    			if(record.isSet("rights.servicesContact")) {
 		    				Element services = new Element("services",namespace);
 		    				Element contact = new Element("contact",namespace);
-		    				contact.addContent(record.get("Rights.servicesContact"));
+		    				contact.addContent(record.get("rights.servicesContact"));
 		    				services.addContent(contact);
 		    				childCopyright.addContent(services);
 		    			}
@@ -311,11 +311,19 @@ public class UniversityArchiveMods {
 			        		childDate.setAttribute("encoding","iso8601");
 			        		childDate.setAttribute("point","start");
 			        		childOriginInfo.addContent(childDate);
-					    }
-		        		
-		        		
+					    }	        		
 		        		
 		    		}
+					
+					if(record.isSet("Date (end)")){
+					    if(!record.get("Date (start)").isEmpty()) {
+					    	Element childDate= new Element("dateCreated", namespace);
+			        		childDate.addContent(record.get("Date (end)"));
+			        		childDate.setAttribute("encoding","iso8601");
+			        		childDate.setAttribute("point","end");
+			        		childOriginInfo.addContent(childDate);
+					    }
+				    }
 		    		
 		    		
 					if(null != childOriginInfo.getChildren() && childOriginInfo.getChildren().size() > 0) {
@@ -341,15 +349,15 @@ public class UniversityArchiveMods {
 					  
 					   // passed fileWriter to write content in specified file  
 					   xmlOutput.setFormat(Format.getPrettyFormat());  
-					   Path source = Paths.get("\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\ua_batch_2\\images\\"+record.get("file name")+".tif");
-		        		Path sourcea = Paths.get("\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\ua_batch_2\\images\\"+record.get("file name")+"a.tif");
-		        		if(Files.exists(source)) {
+					  // Path source = Paths.get("\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\ua_batch_2\\images\\"+record.get("file name")+".tif");
+		        		//Path sourcea = Paths.get("\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\ua_batch_2\\images\\"+record.get("file name")+"a.tif");
+		        		//if(Files.exists(source)) {
 		        			xmlOutput.output(jdomDoc, new FileWriter(  
-		   					     "\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\ua_batch_2\\mods\\"+record.get("file name").replaceFirst(".tif", "")+".xml"));
-		        		}else if(Files.exists(sourcea)){
-		        			xmlOutput.output(jdomDoc, new FileWriter(  
-		   					     "\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\ua_batch_2\\mods\\"+record.get("file name").replaceFirst(".tif", "")+"a.xml"));
-		        		}
+		   					     "\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\ua_batch_6\\mods\\"+record.get("file name")+".xml"));
+		        		//}else if(Files.exists(sourcea)){
+		        	//		xmlOutput.output(jdomDoc, new FileWriter(  
+		   			//		     "\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\ua_batch_2\\mods\\"+record.get("file name").replaceFirst(".tif", "")+"a.xml"));
+		        	//	}
 					   
 					  
 				   

@@ -47,7 +47,7 @@ public class ArmenianPosterMods
         			Element childTitleInfo = new Element("titleInfo", namespace);
             		Element childTitle = new Element("title", namespace);
             		childTitle.addContent(record.get("Title (English)"));
-            		childTitle.setAttribute("lang","eng");
+            		//childTitle.setAttribute("lang","eng");
             		
             		childTitleInfo.addContent(childTitle);
             		rootElement.addContent(childTitleInfo);
@@ -62,6 +62,7 @@ public class ArmenianPosterMods
             		Element childTitle = new Element("title", namespace);
             		childTitle.addContent(record.get("Title (Armenian)"));
             		childTitle.setAttribute("lang","arm");
+            		childTitle.setAttribute("type","alternative");
             		childTitleInfo.addContent(childTitle);
             		rootElement.addContent(childTitleInfo);
             		
@@ -99,7 +100,7 @@ public class ArmenianPosterMods
             		childNameRoleTerm.addContent("creator");
             		childNameRole.addContent(childNameRoleTerm);
             		childName.addContent(childNameRole);
-            		childName.setAttribute("lang","eng");
+            		//childName.setAttribute("lang","eng");
             		
             		rootElement.addContent(childName);
             		
@@ -236,10 +237,10 @@ public class ArmenianPosterMods
    			*<languageTerm type=""text"">
    			*<languageTerm type=""code"" authority=""iso639-2b"">"
     		 */
-    		if(record.isSet("Language")){
-    			if(null != record.get("Language") && record.get("Language").length() > 0){
+    		if(record.isSet("Language (code)")){
+    			if(null != record.get("Language (code)") && record.get("Language (code)").length() > 0){
         			
-        			for( String languagecode : record.get("Language").split(regex)) {
+        			for( String languagecode : record.get("Language (code)").split(regex)) {
         				Element childLanguage = new Element("language", namespace);
                 		/*Element childLanguageTermText= new Element("languageTerm", namespace); 
                 		switch(languagecode) {
@@ -307,7 +308,7 @@ public class ArmenianPosterMods
     		if(record.isSet("Description.note (English)")){
     			if(null != record.get("Description.note (English)") && record.get("Description.note (English)").length() > 0){
         			Element childDescriptionEnglish = new Element("abstract", namespace);
-        			childDescriptionEnglish.setAttribute("lang", "eng");
+        			//childDescriptionEnglish.setAttribute("lang", "eng");
         			childDescriptionEnglish.addContent(record.get("Description.note (English)"));
             		rootElement.addContent(childDescriptionEnglish);
             		
@@ -351,7 +352,7 @@ public class ArmenianPosterMods
     		if(record.isSet("Subject.name (English)")){
     			if(null != record.get("Subject.name (English)") && record.get("Subject.name (English)").length() > 0){
         			Element childSubject = new Element("subject", namespace);
-        			childSubject.setAttribute("lang", "eng");
+        			//childSubject.setAttribute("lang", "eng");
         			Element childName = new Element("name", namespace);
             		Element childNamePart = new Element("namePart", namespace);
             		childNamePart.addContent(record.get("Subject.name (English)"));
@@ -382,7 +383,7 @@ public class ArmenianPosterMods
     		if(record.isSet("Subject.topic (English)")){
     			if(null != record.get("Subject.topic (English)") && record.get("Subject.topic (English)").length() > 0){
         			Element childSubject = new Element("subject", namespace);
-        			childSubject.setAttribute("lang", "eng");
+        			//childSubject.setAttribute("lang", "eng");
         			for( String topic : record.get("Subject.topic (English)").split(regex)) {
         				Element childTopic = new Element("topic", namespace);
                 		childTopic.addContent(topic);
@@ -414,7 +415,7 @@ public class ArmenianPosterMods
     		if(record.isSet("Subject.geographic (English)")){
     			if(null != record.get("Subject.geographic (English)") && record.get("Subject.geographic (English)").length() > 0){
         			Element childSubject = new Element("subject", namespace);
-        			childSubject.setAttribute("lang", "eng");
+        			//childSubject.setAttribute("lang", "eng");
             		Element childGeographic = new Element("geographic", namespace);
             		childGeographic.addContent(record.get("Subject.geographic (English)"));
             		childSubject.addContent(childGeographic);
@@ -441,7 +442,7 @@ public class ArmenianPosterMods
     			if(null != record.get("Collection") && record.get("Collection").length() > 0){
         			Element childRelatedItem = new Element("relatedItem", namespace);
         			childRelatedItem.setAttribute("type", "host");
-        			childRelatedItem.setAttribute("displayLabel", "collection");
+        			//childRelatedItem.setAttribute("displayLabel", "collection");
             		Element childTitleInfo = new Element("titleInfo", namespace);
             		Element childTitle = new Element("title", namespace);
             		childTitle.addContent(record.get("Collection"));    		
@@ -458,7 +459,7 @@ public class ArmenianPosterMods
     			if(null != record.get("Series") && record.get("Series").length() > 0){
         			Element childRelatedItem = new Element("relatedItem", namespace);
         			childRelatedItem.setAttribute("type", "series");
-        			childRelatedItem.setAttribute("displayLabel", "series");
+        			//childRelatedItem.setAttribute("displayLabel", "series");
             		Element childTitleInfo = new Element("titleInfo", namespace);
             		Element childTitle = new Element("title", namespace);
             		childTitle.addContent(record.get("Series"));    		
@@ -488,6 +489,7 @@ public class ArmenianPosterMods
     			if(null != record.get("File name") && record.get("File name").length() > 0){
         			Element childIdentifier = new Element("identifier", namespace);
         			childIdentifier.setAttribute("type", "local");
+        			childIdentifier.setAttribute("displayLabel", "filename");
         			childIdentifier.addContent(record.get("File name"));
             		rootElement.addContent(childIdentifier);
             		
@@ -524,7 +526,7 @@ public class ArmenianPosterMods
         				childCopyright.setAttribute("publication.status", record.get("Rights.publicationStatus"));
         			}
         			childCopyright.setAttribute("schemaLocation","http://www.cdlib.org/inside/diglib/copyrightMD http://www.cdlib.org/groups/rmg/docs/copyrightMD.xsd", namespacexsi);
-        			//childIdentifier.setAttribute("type", "local");
+        			
         			if(null != record.get("Rights.servicesContact") && record.get("Rights.servicesContact").trim().length() > 0) {
         				Element services = new Element("services",namespace);
         				Element contact = new Element("contact",namespace);
