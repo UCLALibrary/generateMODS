@@ -26,7 +26,7 @@ public class OpenCsvIdep {
 	public static void main(String[] args) throws IllegalStateException, IOException {
 		// TODO Auto-generated method stub
 		
-		List<IdepCsvBean> beans = new CsvToBeanBuilder<IdepCsvBean>(new FileReader("\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\idep-asset-sprint\\cuban ephemera\\cuban_ephemera - metadata .csv"))
+		List<IdepCsvBean> beans = new CsvToBeanBuilder<IdepCsvBean>(new FileReader("\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\luxor\\luxor_metadata.csv"))
 			       .withType(IdepCsvBean.class).build().parse();
 		Namespace namespace = Namespace.getNamespace("mods", "http://www.loc.gov/mods/v3");
 		Namespace namespacexlink = Namespace.getNamespace("xlink", "http://www.w3.org/1999/xlink");
@@ -54,6 +54,14 @@ public class OpenCsvIdep {
 				childIdentifier.setAttribute("type", "local");
 				childIdentifier.setAttribute("displayLabel", "File name");
 				childIdentifier.addContent(cvsbean.getFileName());
+				rootElement.addContent(childIdentifier);
+			}
+			
+			if(null != cvsbean.getStreamingURL() ) {
+				Element childIdentifier = new Element("identifier", namespace);
+				childIdentifier.setAttribute("type", "uri");
+				childIdentifier.setAttribute("displayLabel", "Streaming URL");
+				childIdentifier.addContent(cvsbean.getStreamingURL());
 				rootElement.addContent(childIdentifier);
 			}
 			
@@ -177,7 +185,41 @@ public class OpenCsvIdep {
 				Element childDate = null;
 				for(String columnname : columnames) {
 					switch (columnname) {
-					
+					case "Date.created":
+				   		if(dates.get(columnname).iterator().next().trim().length() > 0) {
+				   			childDate = new Element("dateCreated", namespace);
+							childDate.addContent(dates.get(columnname).iterator().next());							
+							childOriginInfo.addContent(childDate);
+				   		}
+				   		break;
+					case "Date.created (single)":
+						   		if(dates.get(columnname).iterator().next().trim().length() > 0) {
+						   			childDate = new Element("dateCreated", namespace);
+									childDate.addContent(dates.get(columnname).iterator().next());
+									childDate.setAttribute("encoding", "iso8601");
+									childOriginInfo.addContent(childDate);
+						   		}
+						break;
+
+					case "Date.created (start)":
+						if(dates.get(columnname).iterator().next().trim().length() > 0) {
+							 childDate = new Element("dateCreated", namespace);
+							childDate.addContent(dates.get(columnname).iterator().next());
+							childDate.setAttribute("encoding", "iso8601");
+							childDate.setAttribute("point", "start");
+							childOriginInfo.addContent(childDate);
+						}	
+						
+						break;
+					case "Date.created (end)":
+						if(dates.get(columnname).iterator().next().trim().length() > 0) {
+							 childDate = new Element("dateCreated", namespace);
+							childDate.addContent(dates.get(columnname).iterator().next());
+							childDate.setAttribute("encoding", "iso8601");
+							childDate.setAttribute("point", "end");
+							childOriginInfo.addContent(childDate);
+						}
+						break;					
 					case "Date.issued":
 				   		if(dates.get(columnname).iterator().next().trim().length() > 0) {
 				   			childDate = new Element("dateIssued", namespace);
@@ -231,13 +273,16 @@ public class OpenCsvIdep {
 					switch (columnname) {
 					case "Subject.name":
 						if(subjects.get(columnname).iterator().next().trim().length() > 0) {
-							 childSubject = new Element("subject", namespace);
-							Element childName = new Element("name", namespace);
-							Element childNamePart = new Element("namePart", namespace);
-							childNamePart.addContent(subjects.get(columnname).iterator().next());
-							childName.addContent(childNamePart);
-							childSubject.addContent(childName);
-							rootElement.addContent(childSubject);
+							for (String subjectName : subjects.get(columnname).iterator().next().trim().split(regex)) {
+								 childSubject = new Element("subject", namespace);
+									Element childName = new Element("name", namespace);
+									Element childNamePart = new Element("namePart", namespace);
+									childNamePart.addContent(subjectName);
+									childName.addContent(childNamePart);
+									childSubject.addContent(childName);
+									rootElement.addContent(childSubject);
+							}
+							
 						}
 						break;
 					case "Subject.topic":
@@ -259,6 +304,30 @@ public class OpenCsvIdep {
 							childSubject.addContent(childGeographic);
 							rootElement.addContent(childSubject);
 						}	
+						break;
+					case "Subject.coordinates":
+						if(subjects.get(columnname).iterator().next().trim().length() > 0) {
+							 childSubject = new Element("subject", namespace);
+							Element childCartographics = new Element("cartographics", namespace);
+							Element childCoordinates = new Element("coordinates", namespace);
+							childCoordinates.addContent(subjects.get(columnname).iterator().next());
+							childCartographics.addContent(childCoordinates);
+							childSubject.addContent(childCartographics);
+							rootElement.addContent(childSubject);
+						}	
+						break;
+					case "Subject.temporal":
+						if(subjects.get(columnname).iterator().next().trim().length() > 0) {
+							 childSubject = new Element("subject", namespace);
+							 for (String temporal : subjects.get(columnname).iterator().next().split(regex)) {
+								 Element childTemporal = new Element("temporal", namespace);
+									childTemporal.addContent(temporal);
+									childSubject.addContent(childTemporal);
+							 }
+							
+							rootElement.addContent(childSubject);
+						}	
+						break;	
 					default:
 						break;
 					}
@@ -277,6 +346,28 @@ public class OpenCsvIdep {
 					Element childTitleInfo = new Element("titleInfo", namespace);
 					Element childTitle = new Element("title", namespace);
 					childTitle.addContent(titles.get(columnname).iterator().next());
+					if (titleCol.length > 1) {
+						childTitle.setAttribute("lang", titleCol[1].trim());
+					}
+					childTitleInfo.addContent(childTitle);
+					rootElement.addContent(childTitleInfo);
+				}
+				
+				
+
+			}
+			
+if (null != cvsbean.getTranslated_title() && !cvsbean.getTranslated_title().isEmpty()) {
+				
+				MultiValuedMap<String, String> titles = cvsbean.getTranslated_title();
+				MultiSet<String> columnames= titles.keys();
+				
+				for(String columnname : columnames) {
+					String[] titleCol = columnname.split(regex);
+					Element childTitleInfo = new Element("titleInfo", namespace);
+					Element childTitle = new Element("title", namespace);
+					childTitle.addContent(titles.get(columnname).iterator().next());
+					childTitle.setAttribute("type","translated");
 					if (titleCol.length > 1) {
 						childTitle.setAttribute("lang", titleCol[1].trim());
 					}
@@ -527,8 +618,8 @@ public class OpenCsvIdep {
 			// passed fileWriter to write content in specified file
 			xmlOutput.setFormat(Format.getPrettyFormat());
 			xmlOutput.output(jdomDoc,
-					new FileWriter("\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\idep-asset-sprint\\cuban ephemera\\mods\\"
-							+ cvsbean.getFileName().replaceFirst("pdf", "xml").replaceFirst("tif","xml")));
+					new FileWriter("\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\luxor\\mods\\"
+							+ cvsbean.getFileName().replaceFirst("pdf", "xml").replaceFirst("tif","xml").replaceFirst("mp4","xml")));
 
 		}
 

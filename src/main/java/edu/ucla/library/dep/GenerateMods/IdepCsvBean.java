@@ -11,6 +11,9 @@ public class IdepCsvBean {
 	 @CsvBindByName(column = "File name")
      private String fileName;
 	 
+	 @CsvBindByName(column = "Streaming URL")
+     private String streamingURL;
+	 
 	 @CsvBindByName(column = "local ID")
      private String localID;
 	 
@@ -42,6 +45,10 @@ public class IdepCsvBean {
 	 
 	 @CsvBindByName(column = "folder")
      private String folder;
+	 
+	 @CsvBindAndJoinByName(column = "TRANSLATED TITLE.*", elementType = String.class)
+     private MultiValuedMap<String, String> translated_title;
+	
 	 
 	 public String getFileName() {
 		return fileName;
@@ -326,26 +333,45 @@ public class IdepCsvBean {
 		this.folder = folder;
 	}
 
+	
+	
+
+	public MultiValuedMap<String, String> getTranslated_title() {
+		return translated_title;
+	}
+
+
+	public void setTranslated_title(MultiValuedMap<String, String> translated_title) {
+		this.translated_title = translated_title;
+	}
+
+
+	public String getStreamingURL() {
+		return streamingURL;
+	}
+
+
+	public void setStreamingURL(String streamingURL) {
+		this.streamingURL = streamingURL;
+	}
+
 
 	@Override
 	public String toString() {
-		return "IdepCsvBean [" + (fileName != null ? "fileName=" + fileName + ", " : "")
-				+ (localID != null ? "localID=" + localID + ", " : "")
-				+ (collection != null ? "collection=" + collection + ", " : "")
-				+ (series != null ? "series=" + series + ", " : "")
-				+ (typeOfResource != null ? "typeOfResource=" + typeOfResource + ", " : "")
-				+ (genre != null ? "genre=" + genre + ", " : "")
-				+ (institution_repository != null ? "institution_repository=" + institution_repository + ", " : "")
-				+ (titles != null ? "titles=" + titles + ", " : "")
-				+ (creators != null ? "creators=" + creators + ", " : "")
-				+ (publishers != null ? "publishers=" + publishers + ", " : "")
-				+ (dates != null ? "dates=" + dates + ", " : "")
-				+ (physicalDescription != null ? "physicalDescription=" + physicalDescription + ", " : "")
-				+ (languages != null ? "languages=" + languages + ", " : "")
-				+ (abstracts != null ? "abstracts=" + abstracts + ", " : "")
-				+ (notes != null ? "notes=" + notes + ", " : "")
-				+ (subjects != null ? "subjects=" + subjects + ", " : "")
-				+ (rights != null ? "rights=" + rights + ", " : "") + "]";
+		return "IdepCsvBean [fileName=" + fileName + ", streamingURL=" + streamingURL + ", localID=" + localID
+				+ ", collection=" + collection + ", series=" + series + ", typeOfResource=" + typeOfResource
+				+ ", genre=" + genre + ", institution_repository=" + institution_repository + ", collectionName="
+				+ collectionName + ", collectionNumber=" + collectionNumber + ", box=" + box + ", folder=" + folder
+				+ ", translated_title=" + translated_title + ", titles=" + titles + ", creators=" + creators
+				+ ", publishers=" + publishers + ", dates=" + dates + ", physicalDescription=" + physicalDescription
+				+ ", languages=" + languages + ", abstracts=" + abstracts + ", notes=" + notes + ", subjects="
+				+ subjects + ", rights=" + rights + ", volumes=" + volumes + ", contributors=" + contributors + "]";
 	}
+
+
+	
+
+
+	
 
 }

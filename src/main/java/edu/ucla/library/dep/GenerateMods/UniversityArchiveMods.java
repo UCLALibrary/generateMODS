@@ -37,7 +37,7 @@ public class UniversityArchiveMods {
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		
-    	Reader in = new FileReader("C:\\Users\\parinita ghorpade\\Downloads\\ua_batch_6.csv");
+    	Reader in = new FileReader("\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\ua_batch_7\\ua_batch_7.csv");
     	
     	Iterable<CSVRecord> records = CSVFormat.EXCEL.withFirstRecordAsHeader().parse(in);
     	Namespace namespace = Namespace.getNamespace("mods", "http://www.loc.gov/mods/v3");
@@ -353,7 +353,7 @@ public class UniversityArchiveMods {
 		        		//Path sourcea = Paths.get("\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\ua_batch_2\\images\\"+record.get("file name")+"a.tif");
 		        		//if(Files.exists(source)) {
 		        			xmlOutput.output(jdomDoc, new FileWriter(  
-		   					     "\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\ua_batch_6\\mods\\"+record.get("file name")+".xml"));
+		   					     "\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\ua_batch_7\\mods\\"+record.get("file name")+".xml"));
 		        		//}else if(Files.exists(sourcea)){
 		        	//		xmlOutput.output(jdomDoc, new FileWriter(  
 		   			//		     "\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\ua_batch_2\\mods\\"+record.get("file name").replaceFirst(".tif", "")+"a.xml"));
