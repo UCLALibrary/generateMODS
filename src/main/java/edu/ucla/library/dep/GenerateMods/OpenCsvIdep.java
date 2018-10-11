@@ -26,7 +26,7 @@ public class OpenCsvIdep {
 	public static void main(String[] args) throws IllegalStateException, IOException {
 		// TODO Auto-generated method stub
 		
-		List<IdepCsvBean> beans = new CsvToBeanBuilder<IdepCsvBean>(new FileReader("\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\luxor\\luxor_metadata.csv"))
+		List<IdepCsvBean> beans = new CsvToBeanBuilder<IdepCsvBean>(new FileReader("\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\chinese-cuban-newspapers\\KwongWahPo\\kwongwahpo-metadata.csv"))
 			       .withType(IdepCsvBean.class).build().parse();
 		Namespace namespace = Namespace.getNamespace("mods", "http://www.loc.gov/mods/v3");
 		Namespace namespacexlink = Namespace.getNamespace("xlink", "http://www.w3.org/1999/xlink");
@@ -357,7 +357,7 @@ public class OpenCsvIdep {
 
 			}
 			
-if (null != cvsbean.getTranslated_title() && !cvsbean.getTranslated_title().isEmpty()) {
+			if (null != cvsbean.getTranslated_title() && !cvsbean.getTranslated_title().isEmpty()) {
 				
 				MultiValuedMap<String, String> titles = cvsbean.getTranslated_title();
 				MultiSet<String> columnames= titles.keys();
@@ -564,19 +564,22 @@ if (null != cvsbean.getTranslated_title() && !cvsbean.getTranslated_title().isEm
 						Element childPart = new Element("part", namespace);
 						String[] values = volumes.get(columnname).iterator().next().split(regex);
 						
-						for (int i = 0; i < volCol.length; i++) {
+						for (int i = 0; i < values.length; i++) {
 							if("date".equals(volCol[i].trim())) {
 								Element childPartDate = new Element("Date", namespace);	
 								childPartDate.addContent(values[i].trim());
 								childPart.addContent(childPartDate);
 								continue;
 							}
-							Element childPartDetail = new Element("detail", namespace);							
-							childPartDetail.setAttribute("type", volCol[i].trim());
-							Element childNumber = new Element("number",namespace);
-							childNumber.setAttribute("type", values[i].trim());
-							childPartDetail.addContent(childNumber);
-							childPart.addContent(childPartDetail);
+							
+								Element childPartDetail = new Element("detail", namespace);							
+								childPartDetail.setAttribute("type", volCol[i].trim());
+								Element childNumber = new Element("number",namespace);
+								childNumber.setAttribute("type", values[i].trim());
+								childPartDetail.addContent(childNumber);
+								childPart.addContent(childPartDetail);
+							
+							
 						}
 						
 
@@ -618,7 +621,7 @@ if (null != cvsbean.getTranslated_title() && !cvsbean.getTranslated_title().isEm
 			// passed fileWriter to write content in specified file
 			xmlOutput.setFormat(Format.getPrettyFormat());
 			xmlOutput.output(jdomDoc,
-					new FileWriter("\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\luxor\\mods\\"
+					new FileWriter("\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\chinese-cuban-newspapers\\KwongWahPo\\mods\\"
 							+ cvsbean.getFileName().replaceFirst("pdf", "xml").replaceFirst("tif","xml").replaceFirst("mp4","xml")));
 
 		}
