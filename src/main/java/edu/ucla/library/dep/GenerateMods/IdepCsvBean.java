@@ -48,6 +48,9 @@ public class IdepCsvBean {
 	 
 	 @CsvBindAndJoinByName(column = "TRANSLATED TITLE.*", elementType = String.class)
      private MultiValuedMap<String, String> translated_title;
+	 
+	 @CsvBindAndJoinByName(column = "ALT TITLE.*", elementType = String.class)
+     private MultiValuedMap<String, String> alt_titles;
 	
 	 
 	 public String getFileName() {
@@ -356,16 +359,27 @@ public class IdepCsvBean {
 	}
 
 
+	public MultiValuedMap<String, String> getAlt_titles() {
+		return alt_titles;
+	}
+
+
+	public void setAlt_titles(MultiValuedMap<String, String> alt_titles) {
+		this.alt_titles = alt_titles;
+	}
+
+
 	@Override
 	public String toString() {
 		return "IdepCsvBean [fileName=" + fileName + ", streamingURL=" + streamingURL + ", localID=" + localID
 				+ ", collection=" + collection + ", series=" + series + ", typeOfResource=" + typeOfResource
 				+ ", genre=" + genre + ", institution_repository=" + institution_repository + ", collectionName="
 				+ collectionName + ", collectionNumber=" + collectionNumber + ", box=" + box + ", folder=" + folder
-				+ ", translated_title=" + translated_title + ", titles=" + titles + ", creators=" + creators
-				+ ", publishers=" + publishers + ", dates=" + dates + ", physicalDescription=" + physicalDescription
-				+ ", languages=" + languages + ", abstracts=" + abstracts + ", notes=" + notes + ", subjects="
-				+ subjects + ", rights=" + rights + ", volumes=" + volumes + ", contributors=" + contributors + "]";
+				+ ", translated_title=" + translated_title + ", alt_titles=" + alt_titles + ", titles=" + titles
+				+ ", creators=" + creators + ", publishers=" + publishers + ", dates=" + dates
+				+ ", physicalDescription=" + physicalDescription + ", languages=" + languages + ", abstracts="
+				+ abstracts + ", notes=" + notes + ", subjects=" + subjects + ", rights=" + rights + ", volumes="
+				+ volumes + ", contributors=" + contributors + "]";
 	}
 
 

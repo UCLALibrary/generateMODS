@@ -37,12 +37,13 @@ public class UniversityArchiveMods {
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		
-    	Reader in = new FileReader("\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\ua_batch_7\\ua_batch_7.csv");
+    	Reader in = new FileReader("\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\ua_december_reload\\ua_december_reload.csv");
     	
     	Iterable<CSVRecord> records = CSVFormat.EXCEL.withFirstRecordAsHeader().parse(in);
     	Namespace namespace = Namespace.getNamespace("mods", "http://www.loc.gov/mods/v3");
     	Namespace namespacexlink = Namespace.getNamespace("xlink","http://www.w3.org/1999/xlink");
     	Namespace namespacexsi = Namespace.getNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+    	Namespace namespaceCopyrightMD = Namespace.getNamespace("copyrightMD", "http://www.cdlib.org/inside/diglib/copyrightMD");
     	String delim = "|";
     	String regex = "(?<!\\\\)" + Pattern.quote(delim);
     	Set<String> fileID = new HashSet<>();
@@ -272,7 +273,7 @@ public class UniversityArchiveMods {
 		    		
 		    		if(record.isSet("rights.copyrightStatus")){
 		    			Element childAccessCondition = new Element("accessCondition", namespace);
-		    			Element childCopyright = new Element("copyright", namespace);
+		    			Element childCopyright = new Element("copyright", namespaceCopyrightMD);
 		    			childCopyright.setAttribute("copyright.status",record.get("rights.copyrightStatus"));
 		    			if(record.isSet("rights.publicationStatus")) {
 		    				childCopyright.setAttribute("publication.status", record.get("rights.publicationStatus"));
@@ -280,8 +281,8 @@ public class UniversityArchiveMods {
 		    			childCopyright.setAttribute("schemaLocation","http://www.cdlib.org/inside/diglib/copyrightMD http://www.cdlib.org/groups/rmg/docs/copyrightMD.xsd", namespacexsi);
 		    			//childIdentifier.setAttribute("type", "local");
 		    			if(record.isSet("rights.servicesContact")) {
-		    				Element services = new Element("services",namespace);
-		    				Element contact = new Element("contact",namespace);
+		    				Element services = new Element("services",namespaceCopyrightMD);
+		    				Element contact = new Element("contact",namespaceCopyrightMD);
 		    				contact.addContent(record.get("rights.servicesContact"));
 		    				services.addContent(contact);
 		    				childCopyright.addContent(services);
@@ -352,8 +353,9 @@ public class UniversityArchiveMods {
 					  // Path source = Paths.get("\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\ua_batch_2\\images\\"+record.get("file name")+".tif");
 		        		//Path sourcea = Paths.get("\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\ua_batch_2\\images\\"+record.get("file name")+"a.tif");
 		        		//if(Files.exists(source)) {
+					   
 		        			xmlOutput.output(jdomDoc, new FileWriter(  
-		   					     "\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\ua_batch_7\\mods\\"+record.get("file name")+".xml"));
+		   					     "\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\ua_december_reload\\mods\\"+record.get("file name").replaceFirst(".tif", "").trim()+".xml"));
 		        		//}else if(Files.exists(sourcea)){
 		        	//		xmlOutput.output(jdomDoc, new FileWriter(  
 		   			//		     "\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\ua_batch_2\\mods\\"+record.get("file name").replaceFirst(".tif", "")+"a.xml"));

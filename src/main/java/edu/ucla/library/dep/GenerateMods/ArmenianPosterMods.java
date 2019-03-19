@@ -21,7 +21,7 @@ import org.jdom2.output.XMLOutputter;
 public class ArmenianPosterMods {
 	public static void main(String[] args) throws IOException {
 		Reader in = new FileReader(
-				"\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\armenia_testbatch1\\test batch 1 (002-050) - test batch 1.csv");
+				"\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\armenia\\armenia_testbatch.csv");
 		// Iterable<CSVRecord> records = CSVFormat.EXCEL.withHeader("File name","local
 		// ID ","Collection","Series","Title (English)","Title (Armenian)","Title
 		// (Russian)","Creator (English)","Creator (Armenian)","Creator
@@ -67,6 +67,16 @@ public class ArmenianPosterMods {
 					}
 
 				}
+				
+				// add idep porgram for cross collection search
+				Element childRelatedItemProgram = new Element("relatedItem", namespace);
+				childRelatedItemProgram.setAttribute("type", "program");
+				Element childTitleInfoProgram = new Element("titleInfo", namespace);
+				Element childTitleProgram = new Element("title", namespace);
+				childTitleProgram.addContent("International Digital Ephemera Project");
+				childTitleInfoProgram.addContent(childTitleProgram);
+				childRelatedItemProgram.addContent(childTitleInfoProgram);
+				rootElement.addContent(childRelatedItemProgram);
 
 				if (columname.startsWith("Creator")) {
 					String[] creatorCol = columname.split("|");
@@ -217,15 +227,16 @@ public class ArmenianPosterMods {
 
 				case "Collection":
 					if (record.isSet(columname)) {
-						Element childRelatedItem = new Element("relatedItem", namespace);
-						childRelatedItem.setAttribute("type", "host");
-						Element childTitleInfo = new Element("titleInfo", namespace);
-						Element childTitle = new Element("title", namespace);
-						childTitle.addContent(record.get(columname));
-						childTitleInfo.addContent(childTitle);
-						childRelatedItem.addContent(childTitleInfo);
-						rootElement.addContent(childRelatedItem);
-
+						for (String collection : record.get(columname).split(regex)) {
+							Element childRelatedItem = new Element("relatedItem", namespace);
+							childRelatedItem.setAttribute("type", "host");
+							Element childTitleInfo = new Element("titleInfo", namespace);
+							Element childTitle = new Element("title", namespace);
+							childTitle.addContent(collection);
+							childTitleInfo.addContent(childTitle);
+							childRelatedItem.addContent(childTitleInfo);
+							rootElement.addContent(childRelatedItem);
+						}
 					}
 					break;
 				case "Series":
@@ -269,6 +280,25 @@ public class ArmenianPosterMods {
 					}
 					break;
 				case "Language | code":
+					if (record.isSet(columname)) {
+						String[] langCol = columname.split(regex);
+
+						Element childLanguage = new Element("language", namespace);
+						Element childLanguageTermText = new Element("languageTerm", namespace);
+						childLanguageTermText.addContent(langCol[0]);
+						childLanguageTermText.setAttribute("type", "text");
+						childLanguage.addContent(childLanguageTermText);
+						Element childLanguageTermCode = new Element("languageTerm", namespace);
+						childLanguageTermCode.addContent(langCol[1]);
+						childLanguageTermCode.setAttribute("type", "code");
+						childLanguageTermCode.setAttribute("encoding", "iso639-2b");
+						childLanguage.addContent(childLanguageTermCode);
+						rootElement.addContent(childLanguage);
+
+					}
+					break;
+					
+				case "Language1 | code":
 					if (record.isSet(columname)) {
 						String[] langCol = columname.split(regex);
 
@@ -828,7 +858,7 @@ public class ArmenianPosterMods {
 				// passed fileWriter to write content in specified file
 				xmlOutput.setFormat(Format.getPrettyFormat());
 				xmlOutput.output(jdomDoc,
-						new FileWriter("\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\armenia_testbatch1\\test_mods\\"
+						new FileWriter("\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\armenia\\mods\\"
 								+ record.get("File name").replaceFirst("tif", "xml")));
 
 			}

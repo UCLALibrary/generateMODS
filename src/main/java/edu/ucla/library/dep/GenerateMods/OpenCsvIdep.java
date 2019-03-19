@@ -1,9 +1,13 @@
 package edu.ucla.library.dep.GenerateMods;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.apache.commons.collections4.MultiSet;
@@ -16,17 +20,12 @@ import org.jdom2.output.XMLOutputter;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-
 public class OpenCsvIdep {
 
 	public static void main(String[] args) throws IllegalStateException, IOException {
 		// TODO Auto-generated method stub
 		
-		List<IdepCsvBean> beans = new CsvToBeanBuilder<IdepCsvBean>(new FileReader("\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\chinese-cuban-newspapers\\KwongWahPo\\kwongwahpo-metadata.csv"))
+		List<IdepCsvBean> beans = new CsvToBeanBuilder<IdepCsvBean>(new FileReader("\\\\svm_dlib\\DLIngest\\embroideries\\embroideries-metadata.csv"))
 			       .withType(IdepCsvBean.class).build().parse();
 		Namespace namespace = Namespace.getNamespace("mods", "http://www.loc.gov/mods/v3");
 		Namespace namespacexlink = Namespace.getNamespace("xlink", "http://www.w3.org/1999/xlink");
@@ -84,6 +83,17 @@ public class OpenCsvIdep {
 				rootElement.addContent(childRelatedItem);
 				}
 			}
+			
+			// add idep porgram for cross collection search
+			Element childRelatedItemProgram = new Element("relatedItem", namespace);
+			childRelatedItemProgram.setAttribute("type", "program");
+			Element childTitleInfoProgram = new Element("titleInfo", namespace);
+			Element childTitleProgram = new Element("title", namespace);
+			childTitleProgram.addContent("International Digital Ephemera Project");
+			childTitleInfoProgram.addContent(childTitleProgram);
+			childRelatedItemProgram.addContent(childTitleInfoProgram);
+			rootElement.addContent(childRelatedItemProgram);
+			
 			
 			if(null != cvsbean.getSeries()) {
 				Element childRelatedItem = new Element("relatedItem", namespace);
@@ -169,7 +179,7 @@ public class OpenCsvIdep {
 						Element childLanguageTermCode = new Element("languageTerm", namespace);
 						childLanguageTermCode.addContent(langCol[1].trim());
 						childLanguageTermCode.setAttribute("type", "code");
-						childLanguageTermCode.setAttribute("encoding", "iso639-2b");
+						childLanguageTermCode.setAttribute("authority", "iso639-2b");
 						childLanguage.addContent(childLanguageTermCode);
 						rootElement.addContent(childLanguage);
 					}
@@ -342,15 +352,44 @@ public class OpenCsvIdep {
 				MultiSet<String> columnames= titles.keys();
 				
 				for(String columnname : columnames) {
-					String[] titleCol = columnname.split(regex);
-					Element childTitleInfo = new Element("titleInfo", namespace);
-					Element childTitle = new Element("title", namespace);
-					childTitle.addContent(titles.get(columnname).iterator().next());
-					if (titleCol.length > 1) {
-						childTitle.setAttribute("lang", titleCol[1].trim());
+					if(titles.get(columnname).iterator().next().trim().length() > 0) {
+						String[] titleCol = columnname.split(regex);
+						Element childTitleInfo = new Element("titleInfo", namespace);
+						Element childTitle = new Element("title", namespace);
+						childTitle.addContent(titles.get(columnname).iterator().next());
+						if (titleCol.length > 1) {
+							childTitle.setAttribute("lang", titleCol[1].trim());
+						}
+						childTitleInfo.addContent(childTitle);
+						rootElement.addContent(childTitleInfo);
 					}
-					childTitleInfo.addContent(childTitle);
-					rootElement.addContent(childTitleInfo);
+					
+				}
+				
+				
+
+			}
+			
+			
+			if (null != cvsbean.getAlt_titles() && !cvsbean.getAlt_titles().isEmpty()) {
+				
+				MultiValuedMap<String, String> altTitles = cvsbean.getAlt_titles();
+				MultiSet<String> columnames= altTitles.keys();
+				
+				for(String columnname : columnames) {
+					if(altTitles.get(columnname).iterator().next().trim().length() > 0) {
+						String[] titleCol = columnname.split(regex);
+						Element childTitleInfo = new Element("titleInfo", namespace);
+						Element childTitle = new Element("title", namespace);
+						childTitle.addContent(altTitles.get(columnname).iterator().next());
+						if (titleCol.length > 1) {
+							childTitle.setAttribute("lang", titleCol[1].trim());
+						}
+						childTitle.setAttribute("type","alternative");
+						childTitleInfo.addContent(childTitle);
+						rootElement.addContent(childTitleInfo);
+					}
+					
 				}
 				
 				
@@ -363,16 +402,19 @@ public class OpenCsvIdep {
 				MultiSet<String> columnames= titles.keys();
 				
 				for(String columnname : columnames) {
-					String[] titleCol = columnname.split(regex);
-					Element childTitleInfo = new Element("titleInfo", namespace);
-					Element childTitle = new Element("title", namespace);
-					childTitle.addContent(titles.get(columnname).iterator().next());
-					childTitle.setAttribute("type","translated");
-					if (titleCol.length > 1) {
-						childTitle.setAttribute("lang", titleCol[1].trim());
+					if(titles.get(columnname).iterator().next().trim().length() > 0) {
+						String[] titleCol = columnname.split(regex);
+						Element childTitleInfo = new Element("titleInfo", namespace);
+						Element childTitle = new Element("title", namespace);
+						childTitle.addContent(titles.get(columnname).iterator().next());
+						childTitle.setAttribute("type","translated");
+						if (titleCol.length > 1) {
+							childTitle.setAttribute("lang", titleCol[1].trim());
+						}
+						childTitleInfo.addContent(childTitle);
+						rootElement.addContent(childTitleInfo);
 					}
-					childTitleInfo.addContent(childTitle);
-					rootElement.addContent(childTitleInfo);
+					
 				}
 				
 				
@@ -414,6 +456,45 @@ public class OpenCsvIdep {
 				
 
 			}
+			
+			if (null != cvsbean.getContributors() && !cvsbean.getContributors().isEmpty()) {
+				MultiValuedMap<String, String> contributors = cvsbean.getContributors();
+				MultiSet<String> columnames= contributors.keys();
+				for(String columnname : columnames) {
+					if(contributors.get(columnname).iterator().next().trim().length() > 0) {
+						for(String contributor : contributors.get(columnname).iterator().next().split(regex)) {
+							String[] contributorCol = columnname.split(regex);
+							
+							Element childName = new Element("name", namespace);
+							// for( String namePart : record.get("columname").split(regex)) {
+							Element childNamePart = new Element("namePart", namespace);
+							childNamePart.addContent(contributor);
+							childName.addContent(childNamePart);
+
+							// }
+							Element childNameRole = new Element("role", namespace);
+							Element childNameRoleTerm = new Element("roleTerm", namespace);
+							String[] contributorRole = contributorCol[0].split(regexDot);
+							if (contributorRole.length > 1) {
+								childNameRoleTerm.addContent(contributorRole[1].trim());
+							} else {
+								childNameRoleTerm.addContent("contributor");
+							}
+
+							childNameRole.addContent(childNameRoleTerm);
+							childName.addContent(childNameRole);
+							if (contributorRole.length > 1) {
+								childName.setAttribute("lang", contributorRole[1].trim());
+							}
+							rootElement.addContent(childName);
+						}
+						
+					}
+				}
+				
+				
+
+			}
 
 			if (null != cvsbean.getPublishers() && !cvsbean.getPublishers().isEmpty()) {
 				
@@ -432,7 +513,9 @@ public class OpenCsvIdep {
 						if (pubCol.length > 1) {
 							if (publishers.get(columnname).iterator().next().trim().length() > 0) {
 								Element childPlace = new Element(pubCol[1], namespace);
-								childPlace.addContent(publishers.get(columnname).iterator().next());
+								Element childPlaceTerm = new Element("placeTerm", namespace);
+								childPlaceTerm.addContent(publishers.get(columnname).iterator().next());
+								childPlace.addContent(childPlaceTerm);
 								childOriginInfo.addContent(childPlace);
 							}
 
@@ -484,28 +567,33 @@ public class OpenCsvIdep {
 			if (null != cvsbean.getNotes() && !cvsbean.getNotes().isEmpty()) {
 				
 				MultiValuedMap<String, String> notes = cvsbean.getNotes();
-				MultiSet<String> columnames= notes.keys();
+				
+				Set<String> columnames= notes.keySet();
 				for(String columnname : columnames) {
 					String[] noteCol = columnname.split(regex);
-					if (notes.get(columnname).iterator().next().trim().length() > 0) {
-						Element childNote = new Element("note", namespace);
-						if (noteCol.length > 1) {
+					Iterator<String> notesValues = notes.get(columnname).iterator();
+					while(notesValues.hasNext()) {
+						String notevalue = notesValues.next();
+						if(notevalue.trim().length() > 0) {
+							Element childNote = new Element("note", namespace);
+							if (noteCol.length > 1) {
 
-							childNote.setAttribute("lang", noteCol[1].trim());
+								childNote.setAttribute("lang", noteCol[1].trim());
 
+							}
+							String[] noteType = noteCol[0].split(regexDot);
+							if (noteType.length > 1) {
+								childNote.setAttribute("type", noteType[1].trim());
+								childNote.setAttribute("displayLabel", noteType[1].trim());
+							}
+
+							childNote.addContent(notevalue.trim());
+
+							rootElement.addContent(childNote);
 						}
-						String[] noteType = noteCol[0].split(regexDot);
-						if (noteType.length > 1) {
-							childNote.setAttribute("type", noteType[1].trim());
-							childNote.setAttribute("displayLabel", noteType[1].trim());
-						}
-
-						childNote.addContent(notes.get(columnname).iterator().next());
-
-						rootElement.addContent(childNote);
 					}
-				}
-				
+					
+				}				
 
 			}
 
@@ -519,17 +607,18 @@ public class OpenCsvIdep {
 				childCopyright.setAttribute("schemaLocation",
 						"http://www.cdlib.org/inside/diglib/copyrightMD http://www.cdlib.org/groups/rmg/docs/copyrightMD.xsd",
 						namespacexsi);
-				childCopyright.setAttribute("type","use and reproduction");
+				//childCopyright.setAttribute("type","use and reproduction"); it doesnt exist in schema
 				for(String columnname : columnames) {
 					String[] rightsCol = columnname.split(regexDot);
 					
 					switch (rightsCol[1]) {
-					case "URI":
-						childCopyright.setAttribute("href", rights.get(columnname).iterator().next(),namespacexlink);
+					/*case "URI":
+						//not allowed in copyright schema childCopyright.setAttribute("href", rights.get(columnname).iterator().next(),namespacexlink);
 						
-						break;
+						break;*/
 					case "copyrightStatus":
 						childCopyright.setAttribute("copyright.status", rights.get(columnname).iterator().next());
+						//childCopyright.setAttribute("copyright.status", "unknown");
 						break;
 					case "publicationStatus":
 						childCopyright.setAttribute("publication.status", rights.get(columnname).iterator().next());
@@ -575,7 +664,7 @@ public class OpenCsvIdep {
 								Element childPartDetail = new Element("detail", namespace);							
 								childPartDetail.setAttribute("type", volCol[i].trim());
 								Element childNumber = new Element("number",namespace);
-								childNumber.setAttribute("type", values[i].trim());
+								childNumber.addContent(values[i].trim());
 								childPartDetail.addContent(childNumber);
 								childPart.addContent(childPartDetail);
 							
@@ -621,8 +710,8 @@ public class OpenCsvIdep {
 			// passed fileWriter to write content in specified file
 			xmlOutput.setFormat(Format.getPrettyFormat());
 			xmlOutput.output(jdomDoc,
-					new FileWriter("\\\\svm-netapp-dlib.in.library.ucla.edu\\DLIngest\\chinese-cuban-newspapers\\KwongWahPo\\mods\\"
-							+ cvsbean.getFileName().replaceFirst("pdf", "xml").replaceFirst("tif","xml").replaceFirst("mp4","xml")));
+					new FileWriter("\\\\svm_dlib\\DLIngest\\embroideries\\mods\\"
+							+ cvsbean.getFileName().replaceFirst("pdf", "xml").replaceFirst("tif","xml").replaceFirst("mp4","xml").replaceFirst("mp3","xml")));
 
 		}
 
