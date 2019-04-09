@@ -48,7 +48,7 @@ public class SetThumbnailFlagInSolr {
     }
     
     public void updateSolr() throws Exception {
-        String path = "\\\\lit312v\\d$\\OAI\\thumbnails\\umw";
+        String path = "\\\\lit312v\\d$\\OAI\\thumbnails\\utk";
         QueryResponse responseTemp;
         File folder = new File(path);
         File[] listOfFiles = folder.listFiles();
