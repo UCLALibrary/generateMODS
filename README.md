@@ -39,15 +39,19 @@ ls
   
 ##### 1.1 Open Project Wizard.
 
-    Click `File Menu`
+ Click `File Menu`
     Click  `Open Projects from the file system` 
 
-    Next to Source file box click `directory`
+  Next to Source file box click `directory`
         Select folder `GenerateMods`
     Click `Finish`
 
 ##### 1.2 Open OpenCSVidep.java file
 
+On the left side , click the `Project Explorer` tab
+You will see the `GenerateMods` projects in this window
+uncollapse this projects and open 'src\main\java' 
+open package `edu.ucla.library.dep.GenerateMods`
 
 
 
