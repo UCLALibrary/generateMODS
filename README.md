@@ -39,14 +39,16 @@ ls
   
 ##### 1.1 Open Project Wizard.
 
-Click `File Menu`
-Click  `Open Projects from the file system` 
+    Click `File Menu`
+    Click  `Open Projects from the file system` 
 
-Next to Source file box click `directory`
-    Select folder `GenerateMods`
-Click `Finish`
+    Next to Source file box click `directory`
+        Select folder `GenerateMods`
+    Click `Finish`
 
-##### 1.2 
+##### 1.2 Open OpenCSVidep.java file
+
+
 
 
 Ensure that users have write access to these files:
