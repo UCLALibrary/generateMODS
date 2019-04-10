@@ -32,11 +32,21 @@ ls
 
 #### 1. Open the project
 
-    Run the Eclipse IDE
+  Run Eclipse IDE  
     
   The working directory is the default `\eclipse-workspace`  
   Click `Launch`
   
+##### 1.1 Open Project Wizard.
+
+Click `File Menu`
+Click  `Open Projects from the file system` 
+
+Next to Source file box click `directory`
+    Select folder `GenerateMods`
+Click `Finish`
+
+##### 1.2 
 
 
 Ensure that users have write access to these files:
