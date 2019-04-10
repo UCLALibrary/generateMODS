@@ -20,7 +20,23 @@ Go [here](https://www.eclipse.org/downloads/download.php?file=/technology/epp/do
 ## Get the Code
 
 Clone the Git repo at `https://github.com/UCLALibrary/GenerateMODS.git`.
+
+```Shell
+cd eclipse-workspace
+git clone https://github.com/UCLALibrary/GenerateMODS.git
+cd GenerateMods
+ls
+``` 
+
+## Project Setup
+
+#### 1. Open the project
+
+    Run the Eclipse IDE
     
+  The working directory is the default `\eclipse-workspace`  
+  Click `Launch`
+  
 
 
 Ensure that users have write access to these files:
