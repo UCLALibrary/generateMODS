@@ -1,7 +1,8 @@
 # GenerateMODS maven application
 
-#### This repository should remain private for the time being
-
+#### This OPENCSV project is used to create MODS from a spreadsheet for IDEP
+#### The spreadsheet mapping is [here](https://docs.google.com/spreadsheets/d/1TTQKmFVWYumsWC5QwKf5E7bxzAmgnefOHrzAiCiQfrU/edit#gid=15338334)
+#### This should not be used for  `Green Movement`
 # Environment Setup - Windows 10 64-bit
 
 
