@@ -64,7 +64,7 @@ ls
 + goto line 713 and add path to idep mods on Netapp like `new FileWriter("\\\\svm_dlib\\DLIngest\\embroideries\\mods\\"`
 
 
-#### 2 Run the java file.
+#### 2. Run the java file.
 
 + right click anywhere in the code or the file name 'OpenCSVIdep'
 + Click 'Run as' menu from the drop down and select 'Java application'
