@@ -35,7 +35,7 @@ public class SetThumbnailFlagInSolr {
 
            
 
-    	server = new HttpSolrServer( "http://p-w-solr410master01.library.ucla.edu/solr/sheetmusic");
+    	server = new HttpSolrServer( "http://t-w-solr410master01.library.ucla.edu/solr/sheetmusic");
     	System.out.println(server.toString());
             
 
@@ -48,7 +48,7 @@ public class SetThumbnailFlagInSolr {
     }
     
     public void updateSolr() throws Exception {
-        String path = "\\\\lit312v\\d$\\OAI\\thumbnails\\utk";
+        String path = "\\\\lit347v\\d$\\OAI\\thumbnails\\umich";
         QueryResponse responseTemp;
         File folder = new File(path);
         File[] listOfFiles = folder.listFiles();

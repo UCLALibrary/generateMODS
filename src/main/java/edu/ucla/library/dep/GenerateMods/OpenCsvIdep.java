@@ -483,8 +483,8 @@ public class OpenCsvIdep {
 
 							childNameRole.addContent(childNameRoleTerm);
 							childName.addContent(childNameRole);
-							if (contributorRole.length > 1) {
-								childName.setAttribute("lang", contributorRole[1].trim());
+							if (contributorCol.length > 1) {
+								childName.setAttribute("lang", contributorCol[1].trim());
 							}
 							rootElement.addContent(childName);
 						}
