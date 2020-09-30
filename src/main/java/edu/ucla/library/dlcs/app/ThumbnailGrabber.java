@@ -37,7 +37,7 @@ public class ThumbnailGrabber {
         System.out.println("http://library.duke.edu/digitalcollections/hasm_"+temp+"_"+temp+"-1/");
      */
         // TODO Specify the path to the harvested sheet music collection
-        String path = "\\\\lit347v\\d$\\OAI\\dds\\harvested_records\\mods\\utk";
+        String path = "\\\\lit347v\\d$\\OAI\\dds\\harvested_records\\mods\\umich";
         File folder = new File(path);
         File[] listOfFiles = folder.listFiles();
 
@@ -72,19 +72,20 @@ public class ThumbnailGrabber {
         // University of Illinois at Chicago, Sheet Music Collection: "http://collections.carli.illinois.edu/u?/uic_smusic,"
         // University of St. Francis, Barbara A. Cooke Sheet Music Collection: "http://collections.carli.illinois.edu/u?/usf_cooke,"
         // University of South Carolina, Hemrick Nathan Salley Family Sheet Music: "http://digital.tcl.sc.edu/u?/salleysheet,"
-        // Auburn http://content.lib.auburn.edu:81/u?/pianobench,
+        // Auburn http://content.lib.auburn.edu/cdm/ref/collection/pianobench/id,
 		/// Tulane http://cdm16313.contentdm.oclc.org/cdm/ref/collection/p16313coll30/id/
         // American University http://ausheetmusic.wrlc.org/u?/sheetmusic,
     	// University Of  Winsconsin-Milwaukee  UWM Sheet Music Collection http://cdm17272.contentdm.oclc.org/cdm/ref/collection/sheetmusic/id/
+    	// Edsion Sheetmusic Collection University of Michigan http://hdl.handle.net/2027/
         // TODO Update the logic to assemble the thumbnail URL for the collection being harvest.
-        String test ="https://digital.lib.utk.edu"; 
+        String test ="http://hdl.handle.net/2027/"; 
         //psg: added this for re-harvest
         String thumbExistsPath ="C:\\Temp\\nails\\";
         int total = listOfFiles.length;
         int count = 1;
 
         // create a log file
-        FileOutputStream fos = new FileOutputStream(new File("C:\\Temp\\thumbnail04022019.log"));
+        FileOutputStream fos = new FileOutputStream(new File("C:\\Temp\\thumbnail08052019.log"));
         OutputStreamWriter osw = new OutputStreamWriter(fos);
 
         for (int i = 0; i < total; i++) {
@@ -131,7 +132,7 @@ public class ThumbnailGrabber {
                                                 //    thumbnailurl = recordElementURL.getTextTrim().replaceFirst("http://purl.dlib.indiana.edu/iudl/lilly/starr/","http://purl.dlib.indiana.edu/iudl/lilly/starr/thumbnail/");
                                                 //}else if(recordElementURL.getTextTrim().indexOf("devincent")!= -1){
                                                 thumbnailurl = recordElementURL.getTextTrim();
-                                                //String temp = thumbnailurl.substring(test.length());
+                                                String temp = thumbnailurl.substring(test.length());
                                                 // TODO Update the logic to pull the thumbnail for the collection in question.
                                                 // Tulane University, Guiseppe Ferrata Score Collection
                                                 //thumbnailurl = "http://cdm16313.contentdm.oclc.org/utils/getthumbnail/collection/p16313coll30/id/"+temp;
@@ -144,12 +145,14 @@ public class ThumbnailGrabber {
                                                  //   thumbnailurl = "http://yorkspace.library.yorku.ca/dspace/bitstream/handle" + temp + "/0001.jpg";
                                                 //}
                                                 //Auburn Pianobench
-                                                 /*thumbnailurl = "http://content.lib.auburn.edu:81/cgi-bin/thumbnail.exe?CISOROOT=/pianobench&CISOPTR=" + temp;*/
+                                                 //thumbnailurl = "http://content.lib.auburn.edu/utils/getthumbnail/collection/pianobench/id" + temp;
+                                                 // Edison Sheet Music Collection University of Michigan
+                                                 thumbnailurl = "https://babel.hathitrust.org/cgi/imgsrv/cover?id=" + temp;
                                                 // Oregon -- ContentDM
                                                 //thumbnailurl = "http://oregondigital.org/cgi-bin/thumbnail.exe?CISOROOT=/sheetmusic&CISOPTR=" + temp;
                                                 // University of Tennessee
                                                
-                                                 thumbnailurl = thumbnailurl + "/datastream/TN/view";
+                                                 //thumbnailurl = thumbnailurl + "/datastream/TN/view";
                                                 // National Library of Australia
                                                  //thumbnailurl += "-s1-t.jpg";
                                                 // University of Washington Pacific Northwest Sheet Music Collection
@@ -199,7 +202,7 @@ public class ThumbnailGrabber {
 
                                                     //ImageIO.write(image, "jpeg",new File("\\\\lit304v\\d$\\OAI\\thumbnails\\yorku\\"+listOfFiles[i].getName().replaceAll("_","_5F").replaceFirst(".xml","").trim()+".jpg"));
                                                     if(null != image){
-                                                        ImageIO.write(image,"jpeg", new File("\\\\lit347v\\d$\\OAI\\thumbnails\\utk\\" + listOfFiles[i].getName().replaceAll("_","_5F").replaceFirst(".xml", "").trim() + ".jpg"));
+                                                        ImageIO.write(image,"jpeg", new File("\\\\lit347v\\d$\\OAI\\thumbnails\\umich\\" + listOfFiles[i].getName().replaceAll("_","_5F").replaceFirst(".xml", "").trim() + ".jpg"));
                                                     }
                                                 }
 
