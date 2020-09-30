@@ -24,6 +24,18 @@ public class IdepCsvBean {
 	 @CsvBindByName(column = "Series")
      private String series;
 	 
+	 @CsvBindByName(column = "Subseries")
+     private String subSeries;
+	 
+	 
+	 public String getSubSeries() {
+		return subSeries;
+	}
+
+
+	public void setSubSeries(String subSeries) {
+		this.subSeries = subSeries;
+	}
 	 
 	 @CsvBindByName(column = "TypeOfResource")
      private String typeOfResource;
@@ -372,11 +384,11 @@ public class IdepCsvBean {
 	@Override
 	public String toString() {
 		return "IdepCsvBean [fileName=" + fileName + ", streamingURL=" + streamingURL + ", localID=" + localID
-				+ ", collection=" + collection + ", series=" + series + ", typeOfResource=" + typeOfResource
-				+ ", genre=" + genre + ", institution_repository=" + institution_repository + ", collectionName="
-				+ collectionName + ", collectionNumber=" + collectionNumber + ", box=" + box + ", folder=" + folder
-				+ ", translated_title=" + translated_title + ", alt_titles=" + alt_titles + ", titles=" + titles
-				+ ", creators=" + creators + ", publishers=" + publishers + ", dates=" + dates
+				+ ", collection=" + collection + ", series=" + series + ", subSeries=" + subSeries + ", typeOfResource="
+				+ typeOfResource + ", genre=" + genre + ", institution_repository=" + institution_repository
+				+ ", collectionName=" + collectionName + ", collectionNumber=" + collectionNumber + ", box=" + box
+				+ ", folder=" + folder + ", translated_title=" + translated_title + ", alt_titles=" + alt_titles
+				+ ", titles=" + titles + ", creators=" + creators + ", publishers=" + publishers + ", dates=" + dates
 				+ ", physicalDescription=" + physicalDescription + ", languages=" + languages + ", abstracts="
 				+ abstracts + ", notes=" + notes + ", subjects=" + subjects + ", rights=" + rights + ", volumes="
 				+ volumes + ", contributors=" + contributors + "]";
