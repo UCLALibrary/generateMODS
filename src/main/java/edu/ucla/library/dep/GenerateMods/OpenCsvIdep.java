@@ -26,7 +26,7 @@ public class OpenCsvIdep {
 		// TODO Auto-generated method stub
 
 		List<IdepCsvBean> beans = new CsvToBeanBuilder<IdepCsvBean>(
-				new FileReader("\\\\svm_dlib\\DLIngest\\embroideries\\embroideries-metadata.csv"))
+				new FileReader("\\\\svm_dlib\\DLIngest\\embroideries\\arce_shunet_metadata.csv"))
 						.withType(IdepCsvBean.class).build().parse();
 		Namespace namespace = Namespace.getNamespace("mods", "http://www.loc.gov/mods/v3");
 		Namespace namespacexlink = Namespace.getNamespace("xlink", "http://www.w3.org/1999/xlink");
@@ -115,6 +115,12 @@ public class OpenCsvIdep {
 				childTitleInfo.addContent(childTitle);
 				childRelatedItem.addContent(childTitleInfo);
 				rootElement.addContent(childRelatedItem);
+			}
+			if (null != cvsbean.getLicense()) {
+				Element childAccessConditionLicense = new Element("accessCondition", namespace);
+				childAccessConditionLicense.setAttribute("type", "use and reproduction");
+				childAccessConditionLicense.addContent(cvsbean.getLicense());
+				rootElement.addContent(childAccessConditionLicense);
 			}
 
 			if (null != cvsbean.getTypeOfResource()) {
@@ -571,21 +577,31 @@ public class OpenCsvIdep {
 					while (notesValues.hasNext()) {
 						String notevalue = notesValues.next();
 						if (notevalue.trim().length() > 0) {
-							Element childNote = new Element("note", namespace);
-							if (noteCol.length > 1) {
-
-								childNote.setAttribute("lang", noteCol[1].trim());
-
-							}
 							String[] noteType = noteCol[0].split(regexDot);
-							if (noteType.length > 1) {
-								childNote.setAttribute("type", noteType[1].trim());
-								childNote.setAttribute("displayLabel", noteType[1].trim());
+							if (noteType.length > 1 && "license".equalsIgnoreCase( noteType[1].trim())) {
+								Element childAccessConditionLicense = new Element("accessCondition", namespace);
+								childAccessConditionLicense.setAttribute("type", "use and reproduction");
+								childAccessConditionLicense.addContent(notevalue.trim());
+								rootElement.addContent(childAccessConditionLicense);
+							}else {
+								Element childNote = new Element("note", namespace);
+								if (noteCol.length > 1) {
+
+									childNote.setAttribute("lang", noteCol[1].trim());
+
+								}
+								 
+								if (noteType.length > 1) {
+									childNote.setAttribute("type", noteType[1].trim());
+									childNote.setAttribute("displayLabel", noteType[1].trim());
+								}
+
+								childNote.addContent(notevalue.trim());
+
+								rootElement.addContent(childNote);
 							}
-
-							childNote.addContent(notevalue.trim());
-
-							rootElement.addContent(childNote);
+							
+							
 						}
 					}
 
@@ -630,6 +646,18 @@ public class OpenCsvIdep {
 						services.addContent(contact);
 						childCopyright.addContent(services);
 						break;
+					case "note":
+						Element childAccessConditionNote = new Element("accessCondition", namespace);
+						childAccessConditionNote.setAttribute("type", "local rights statements");
+						childAccessConditionNote.addContent(rights.get(columnname).iterator().next());
+						rootElement.addContent(childAccessConditionNote);
+						break;
+					case "license":
+						/*Element childAccessConditionLicense = new Element("accessCondition", namespace);
+						childAccessConditionLicense.setAttribute("type", "use and reproduction");
+						childAccessConditionLicense.addContent(rights.get(columnname).iterator().next());
+						rootElement.addContent(childAccessConditionLicense);*/
+						break;	
 
 					default:
 						break;

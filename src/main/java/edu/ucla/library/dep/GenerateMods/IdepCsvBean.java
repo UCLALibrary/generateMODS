@@ -17,8 +17,19 @@ public class IdepCsvBean {
 	 @CsvBindByName(column = "local ID")
      private String localID;
 	 
+	 @CsvBindByName(column = "License")
+     private String license;
 	 
-	 @CsvBindByName(column = "Collection")
+	 public String getLicense() {
+		return license;
+	}
+
+
+	public void setLicense(String license) {
+		this.license = license;
+	}
+
+	@CsvBindByName(column = "Collection")
      private String collection;
 	 
 	 @CsvBindByName(column = "Series")
@@ -384,14 +395,14 @@ public class IdepCsvBean {
 	@Override
 	public String toString() {
 		return "IdepCsvBean [fileName=" + fileName + ", streamingURL=" + streamingURL + ", localID=" + localID
-				+ ", collection=" + collection + ", series=" + series + ", subSeries=" + subSeries + ", typeOfResource="
-				+ typeOfResource + ", genre=" + genre + ", institution_repository=" + institution_repository
-				+ ", collectionName=" + collectionName + ", collectionNumber=" + collectionNumber + ", box=" + box
-				+ ", folder=" + folder + ", translated_title=" + translated_title + ", alt_titles=" + alt_titles
-				+ ", titles=" + titles + ", creators=" + creators + ", publishers=" + publishers + ", dates=" + dates
-				+ ", physicalDescription=" + physicalDescription + ", languages=" + languages + ", abstracts="
-				+ abstracts + ", notes=" + notes + ", subjects=" + subjects + ", rights=" + rights + ", volumes="
-				+ volumes + ", contributors=" + contributors + "]";
+				+ ", license=" + license + ", collection=" + collection + ", series=" + series + ", subSeries="
+				+ subSeries + ", typeOfResource=" + typeOfResource + ", genre=" + genre + ", institution_repository="
+				+ institution_repository + ", collectionName=" + collectionName + ", collectionNumber="
+				+ collectionNumber + ", box=" + box + ", folder=" + folder + ", translated_title=" + translated_title
+				+ ", alt_titles=" + alt_titles + ", titles=" + titles + ", creators=" + creators + ", publishers="
+				+ publishers + ", dates=" + dates + ", physicalDescription=" + physicalDescription + ", languages="
+				+ languages + ", abstracts=" + abstracts + ", notes=" + notes + ", subjects=" + subjects + ", rights="
+				+ rights + ", volumes=" + volumes + ", contributors=" + contributors + "]";
 	}
 
 
