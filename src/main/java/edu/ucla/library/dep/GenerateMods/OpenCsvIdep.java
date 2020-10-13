@@ -322,9 +322,11 @@ public class OpenCsvIdep {
 					case "Subject.place":
 						if (subjects.get(columnname).iterator().next().trim().length() > 0) {
 							childSubject = new Element("subject", namespace);
-							Element childGeographic = new Element("geographic", namespace);
-							childGeographic.addContent(subjects.get(columnname).iterator().next());
-							childSubject.addContent(childGeographic);
+							for (String geography : subjects.get(columnname).iterator().next().split(regex)) {
+								Element childGeographic = new Element("geographic", namespace);
+								childGeographic.addContent(geography);
+								childSubject.addContent(childGeographic);
+							}
 							rootElement.addContent(childSubject);
 						}
 						break;
