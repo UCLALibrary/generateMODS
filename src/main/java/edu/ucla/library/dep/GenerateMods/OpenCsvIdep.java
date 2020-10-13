@@ -627,13 +627,17 @@ public class OpenCsvIdep {
 					String[] rightsCol = columnname.split(regexDot);
 
 					switch (rightsCol[1]) {
-					/*
-					 * case "URI": //not allowed in copyright schema
-					 * childCopyright.setAttribute("href",
-					 * rights.get(columnname).iterator().next(),namespacexlink);
-					 * 
-					 * break;
-					 */
+					
+					case "URI": //not allowed in copyright schema
+					  //childCopyright.setAttribute("href",
+					  //rights.get(columnname).iterator().next(),namespacexlink);
+					  Element childAccessConditionRights = new Element("accessCondition", namespace);
+					  childAccessConditionRights.setAttribute("type", "use and reproduction");
+					  childAccessConditionRights.setAttribute("displayLabel", "rightsUri");
+					  childAccessConditionRights.addContent(rights.get(columnname).iterator().next());
+						rootElement.addContent(childAccessConditionRights);
+					  break;
+					 
 					case "copyrightStatus":
 						childCopyright.setAttribute("copyright.status", rights.get(columnname).iterator().next());
 						// childCopyright.setAttribute("copyright.status", "unknown");
