@@ -3,12 +3,16 @@ package edu.ucla.library.dep.GenerateMods;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.AbstractMap;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.MultiSet;
 import org.apache.commons.collections4.MultiValuedMap;
@@ -21,10 +25,243 @@ import org.jdom2.output.XMLOutputter;
 import com.opencsv.bean.CsvToBeanBuilder;
 
 public class OpenCsvIdep {
+	
+	public static final String TYPE = "type";
+	public static final String DISPLAY_LABEL = "displayLabel";
+	public static final String LANG = "lang";
+	public static final String AUTHORITY = "authority";
+	public static final String ENCODING = "encoding";
+	public static final String POINT = "point";
+	public static final String delim = "|";
+	public static final String delimDot = ".";
+	public static final String regex = "(?<!\\\\)" + Pattern.quote(delim);
+	public static final String regexDot = "(?<!\\\\)" + Pattern.quote(delimDot);
+	public static void createSubjectElement(Element rootElement, Namespace namespace, IdepCsvBean cvsbean) {
+		// TODO Auto-generated method stub
+
+		if (null != cvsbean.getSubjects() && !cvsbean.getSubjects().isEmpty()) {
+			MultiValuedMap<String, String> subjects = cvsbean.getSubjects();
+			MultiSet<String> columnames = subjects.keys();
+			Element childSubject = null;
+			for (String columnname : columnames) {
+				switch (columnname) {
+				case "Subject.name":
+					if (subjects.get(columnname).iterator().next().trim().length() > 0) {
+						for (String subjectName : subjects.get(columnname).iterator().next().trim().split(regex)) {
+							childSubject = new Element("subject", namespace);
+							Element childName = new Element("name", namespace);
+							Element childNamePart = new Element("namePart", namespace);
+							childNamePart.addContent(subjectName);
+							childName.addContent(childNamePart);
+							childSubject.addContent(childName);
+							rootElement.addContent(childSubject);
+						}
+
+					}
+					break;
+				case "Subject.topic":
+					if (subjects.get(columnname).iterator().next().trim().length() > 0) {
+						childSubject = new Element("subject", namespace);
+						for (String topic : subjects.get(columnname).iterator().next().split(regex)) {
+							Element childTopic = new Element("topic", namespace);
+							childTopic.addContent(topic);
+							childSubject.addContent(childTopic);
+						}
+						rootElement.addContent(childSubject);
+					}
+					break;
+				case "Subject.place":
+					if (subjects.get(columnname).iterator().next().trim().length() > 0) {
+						childSubject = new Element("subject", namespace);
+						for (String geography : subjects.get(columnname).iterator().next().split(regex)) {
+							Element childGeographic = new Element("geographic", namespace);
+							childGeographic.addContent(geography);
+							childSubject.addContent(childGeographic);
+						}
+						rootElement.addContent(childSubject);
+					}
+					break;
+				case "Subject.coordinates":
+					if (subjects.get(columnname).iterator().next().trim().length() > 0) {
+						childSubject = new Element("subject", namespace);
+						Element childCartographics = new Element("cartographics", namespace);
+						Element childCoordinates = new Element("coordinates", namespace);
+						childCoordinates.addContent(subjects.get(columnname).iterator().next());
+						childCartographics.addContent(childCoordinates);
+						childSubject.addContent(childCartographics);
+						rootElement.addContent(childSubject);
+					}
+					break;
+				case "Subject.temporal":
+					if (subjects.get(columnname).iterator().next().trim().length() > 0) {
+						childSubject = new Element("subject", namespace);
+						for (String temporal : subjects.get(columnname).iterator().next().split(regex)) {
+							Element childTemporal = new Element("temporal", namespace);
+							childTemporal.addContent(temporal);
+							childSubject.addContent(childTemporal);
+						}
+
+						rootElement.addContent(childSubject);
+					}
+					break;
+				default:
+					break;
+				}
+			}
+
+		}
+	}	
+
+	
+	public static void createDateElement(Element childOriginInfo, Namespace namespace, IdepCsvBean cvsbean) {
+		// TODO Auto-generated method stub
+		if (null != cvsbean.getDates() && !cvsbean.getDates().isEmpty()) {
+			MultiValuedMap<String, String> dates = cvsbean.getDates();
+			MultiSet<String> columnames = dates.keys();
+			Element childDate = null;
+			for (String columnname : columnames) {
+				switch (columnname) {
+				case "Date.created":
+					if (dates.get(columnname).iterator().next().trim().length() > 0) {
+						createElementFromString(childOriginInfo, "dateCreated", namespace, dates.get(columnname).iterator().next(), null, null, null, null, null, null);
+					}
+					break;
+				case "Date.created (single)":
+					if (dates.get(columnname).iterator().next().trim().length() > 0) {
+						createElementFromString(childOriginInfo, "dateCreated", namespace, dates.get(columnname).iterator().next(), null, null, null, "iso8601", null, null);
+					}
+					break;
+
+				case "Date.created (start)":
+					if (dates.get(columnname).iterator().next().trim().length() > 0) {
+						createElementFromString(childOriginInfo, "dateCreated", namespace, dates.get(columnname).iterator().next(), null, null, null, "iso8601", null, "start");
+					}
+
+					break;
+				case "Date.created (end)":
+					if (dates.get(columnname).iterator().next().trim().length() > 0) {
+						createElementFromString(childOriginInfo, "dateCreated", namespace, dates.get(columnname).iterator().next(), null, null, null, "iso8601", null, "end");
+					}
+					break;
+				case "Date.issued":
+					if (dates.get(columnname).iterator().next().trim().length() > 0) {
+						createElementFromString(childOriginInfo, "dateIssued", namespace, dates.get(columnname).iterator().next(), null, null, null, null, null, null);
+					}
+					break;
+				case "Date.issued (single)":
+					if (dates.get(columnname).iterator().next().trim().length() > 0) {
+						createElementFromString(childOriginInfo, "dateIssued", namespace, dates.get(columnname).iterator().next(), null, null, null, "iso8601", null, null);
+					}
+					break;
+
+				case "Date.issued (start)":
+					if (dates.get(columnname).iterator().next().trim().length() > 0) {
+						createElementFromString(childOriginInfo, "dateIssued", namespace, dates.get(columnname).iterator().next(), null, null, null, "iso8601", null, "start");
+					}
+
+					break;
+				case "Date.issued (end)":
+					if (dates.get(columnname).iterator().next().trim().length() > 0) {
+						createElementFromString(childOriginInfo, "dateIssued", namespace, dates.get(columnname).iterator().next(), null, null, null, "iso8601", null, "end");
+					}
+					break;
+
+				default:
+					break;
+				}
+			}
+
+		}
+
+		
+	}
+	
+	public static void createLanguage(Element rootElement, Namespace namespace, IdepCsvBean cvsbean) {
+		// TODO Auto-generated method stub
+		if (null != cvsbean.getLanguages() && !cvsbean.getLanguages().isEmpty()) {
+			MultiValuedMap<String, String> languages = cvsbean.getLanguages();
+			Collection<Entry<String, String>> languageMap = languages.entries();
+			for (Entry<String, String> entry : languageMap) {
+				if (null != entry.getValue() && entry.getValue().trim().length() > 5) {
+					String[] langCol = entry.getValue().split(regex);
+					Element childLanguage = new Element("language", namespace);
+					createElementFromString(childLanguage, "languageTerm", namespace, langCol[0].trim(), "text", null, null, null, null, null);
+					createElementFromString(childLanguage, "languageTerm", namespace, langCol[1].trim(), "code", null, null, null, "iso639-2b", null);
+					rootElement.addContent(childLanguage);
+				}
+			}
+
+		}
+
+	}
+	
+	public static void createRelatedItemElement(Element rootElement, Namespace namespace, String typeValue, String elementValue, IdepCsvBean cvsbean) {
+		// TODO Auto-generated method stub
+		Element childRelatedItem = new Element("relatedItem", namespace);
+		childRelatedItem.setAttribute(TYPE, typeValue);
+		Element childTitleInfo = new Element("titleInfo", namespace);
+		if(null != cvsbean) {
+			createElementFromBean(childTitleInfo, "title", namespace, cvsbean,null, null, null, null, null);
+		}
+		if(null != elementValue) {
+			createElementFromString(childTitleInfo, "title", namespace, elementValue,null, null, null, null, null, null);
+		}
+		
+		childRelatedItem.addContent(childTitleInfo);
+		rootElement.addContent(childRelatedItem);
+	}
+
+	public static void createElementFromString(Element parentElement, String elementName, Namespace namespace, String elementValue, 
+			String typeValue, String displayLabelValue, String langValue, String encodingValue, String authorityValue, 
+			String pointValue) {
+		// TODO Auto-generated method stub
+		Element childElement = new Element(elementName, namespace);
+		if(null !=  typeValue) {
+			childElement.setAttribute(TYPE,typeValue);
+		}
+		if(null !=  displayLabelValue) {
+			childElement.setAttribute(DISPLAY_LABEL,displayLabelValue);
+		}
+		if(null !=  langValue) {
+			childElement.setAttribute(LANG,langValue);
+		}
+		if(null !=  authorityValue) {
+			childElement.setAttribute(AUTHORITY,authorityValue);
+		}
+		if(null !=  encodingValue) {
+			childElement.setAttribute(ENCODING,encodingValue);
+		}
+		if(null != pointValue) {
+			childElement.setAttribute("point", pointValue);
+		}
+		childElement.addContent(elementValue);
+		parentElement.addContent(childElement);
+	}
+	
+	public static void createElementFromBean(Element parentElement, String elementName, Namespace namespace, IdepCsvBean cvsbean, String typeValue, String displayLabelValue, String langValue, String encodingValue, String authorityValue) {
+		Element childElement = new Element(elementName, namespace);
+		if(null !=  typeValue) {
+			childElement.setAttribute(TYPE,typeValue);
+		}
+		if(null !=  displayLabelValue) {
+			childElement.setAttribute(DISPLAY_LABEL,displayLabelValue);
+		}
+		if(null !=  langValue) {
+			childElement.setAttribute(LANG,langValue);
+		}
+		if(null !=  authorityValue) {
+			childElement.setAttribute(AUTHORITY,authorityValue);
+		}
+		if(null !=  encodingValue) {
+			childElement.setAttribute(ENCODING,encodingValue);
+		}
+		childElement.addContent(cvsbean.getFileName());
+		parentElement.addContent(childElement);
+	}
 
 	public static void main(String[] args) throws IllegalStateException, IOException {
 		// TODO Auto-generated method stub
-
+		String program = null;
 		List<IdepCsvBean> beans = new CsvToBeanBuilder<IdepCsvBean>(
 				new FileReader("\\\\svm_dlib\\DLIngest\\embroideries\\arce_shunet_metadata.csv"))
 						.withType(IdepCsvBean.class).build().parse();
@@ -33,11 +270,19 @@ public class OpenCsvIdep {
 		Namespace namespacexsi = Namespace.getNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
 		Namespace namespaceCopyrightMD = Namespace.getNamespace("copyrightMD",
 				"http://www.cdlib.org/inside/diglib/copyrightMD");
-		String delim = "|";
-		String delimDot = ".";
-		String regex = "(?<!\\\\)" + Pattern.quote(delim);
-		String regexDot = "(?<!\\\\)" + Pattern.quote(delimDot);
+		
+		if (args.length == 0) {
+			System.out.println("Proper Usage is: java -jar GenerateMods.jar IDEP or java -jar GenerateMods.jar MEAP");
+			System.exit(0);
+		}
 
+		try {
+
+			 program = args[0];
+		} catch (ArrayIndexOutOfBoundsException ex) {
+			System.out.println("ArrayIndexOutOfBoundsException caught");
+			System.exit(0);
+		}
 		for (IdepCsvBean cvsbean : beans) {
 			System.out.println(cvsbean);
 
@@ -51,89 +296,52 @@ public class OpenCsvIdep {
 			Element childOriginInfo = new Element("originInfo", namespace);
 			Element childLocation = new Element("location", namespace);
 			if (null != cvsbean.getFileName()) {
-				Element childIdentifier = new Element("identifier", namespace);
-				childIdentifier.setAttribute("type", "local");
-				childIdentifier.setAttribute("displayLabel", "File name");
-				childIdentifier.addContent(cvsbean.getFileName());
-				rootElement.addContent(childIdentifier);
+				createElementFromBean(rootElement, "identifier", namespace, cvsbean, "local","File name", null, null, null);
 			}
 
 			if (null != cvsbean.getStreamingURL()) {
-				Element childIdentifier = new Element("identifier", namespace);
-				childIdentifier.setAttribute("type", "uri");
-				childIdentifier.setAttribute("displayLabel", "Streaming URL");
-				childIdentifier.addContent(cvsbean.getStreamingURL());
-				rootElement.addContent(childIdentifier);
+				createElementFromBean(rootElement, "identifier", namespace, cvsbean, "uri", "Streaming URL", null, null, null);
 			}
 
 			if (null != cvsbean.getLocalID()) {
-				Element childIdentifier = new Element("identifier", namespace);
-				childIdentifier.setAttribute("type", "local");
-				childIdentifier.addContent(cvsbean.getLocalID());
-				rootElement.addContent(childIdentifier);
+				createElementFromBean(rootElement, "identifier", namespace, cvsbean, "local", null, null, null, null);
 			}
 
 			if (null != cvsbean.getCollection()) {
 				for (String collection : cvsbean.getCollection().split(regex)) {
-					Element childRelatedItem = new Element("relatedItem", namespace);
-					childRelatedItem.setAttribute("type", "host");
-					Element childTitleInfo = new Element("titleInfo", namespace);
-					Element childTitle = new Element("title", namespace);
-					childTitle.addContent(collection);
-					childTitleInfo.addContent(childTitle);
-					childRelatedItem.addContent(childTitleInfo);
-					rootElement.addContent(childRelatedItem);
+					createRelatedItemElement(rootElement,namespace,"host", collection, null);
+					
 				}
 			}
 
-			// add idep porgram for cross collection search
-			Element childRelatedItemProgram = new Element("relatedItem", namespace);
-			childRelatedItemProgram.setAttribute("type", "program");
-			Element childTitleInfoProgram = new Element("titleInfo", namespace);
-			Element childTitleProgram = new Element("title", namespace);
-			childTitleProgram.addContent("International Digital Ephemera Project");
-			childTitleInfoProgram.addContent(childTitleProgram);
-			childRelatedItemProgram.addContent(childTitleInfoProgram);
-			rootElement.addContent(childRelatedItemProgram);
+			// add program for cross collection search
+			
+			
+			if("IDEP".equals(program)) {
+				createRelatedItemElement(rootElement,namespace,"program", "International Digital Ephemera Project", null);
+			} else {
+				createRelatedItemElement(rootElement,namespace,"program", "Modern Endangered Archives Program", null);
+			}
+			
 
 			if (null != cvsbean.getSeries() && !cvsbean.getSeries().isEmpty()) {
-				Element childRelatedItem = new Element("relatedItem", namespace);
-				childRelatedItem.setAttribute("type", "series");
-				Element childTitleInfo = new Element("titleInfo", namespace);
-				Element childTitle = new Element("title", namespace);
-				childTitle.addContent(cvsbean.getSeries());
-				childTitleInfo.addContent(childTitle);
-				childRelatedItem.addContent(childTitleInfo);
-				rootElement.addContent(childRelatedItem);
+				createRelatedItemElement(rootElement,namespace,"series", cvsbean.getSeries(), null);
 			}
+			
 			if (null != cvsbean.getSubSeries() && !cvsbean.getSubSeries().isEmpty()) {
-				Element childRelatedItem = new Element("relatedItem", namespace);
-				childRelatedItem.setAttribute("type", "subseries");
-				Element childTitleInfo = new Element("titleInfo", namespace);
-				Element childTitle = new Element("title", namespace);
-				childTitle.addContent(cvsbean.getSubSeries());
-				childTitleInfo.addContent(childTitle);
-				childRelatedItem.addContent(childTitleInfo);
-				rootElement.addContent(childRelatedItem);
+				createRelatedItemElement(rootElement,namespace,"subseries", cvsbean.getSubSeries(), null);
 			}
 			if (null != cvsbean.getLicense()) {
-				Element childAccessConditionLicense = new Element("accessCondition", namespace);
-				childAccessConditionLicense.setAttribute("type", "use and reproduction");
-				childAccessConditionLicense.addContent(cvsbean.getLicense());
-				rootElement.addContent(childAccessConditionLicense);
+				createElementFromString(rootElement, "accessCondition", namespace, cvsbean.getLicense(), "use and reproduction", null, null, null, null, null);
 			}
 
 			if (null != cvsbean.getTypeOfResource()) {
-				Element childTypeOfResource = new Element("typeOfResource", namespace);
-				childTypeOfResource.addContent(cvsbean.getTypeOfResource());
-				rootElement.addContent(childTypeOfResource);
+				createElementFromString(rootElement, "typeOfResource", namespace, cvsbean.getTypeOfResource(), null, null, null, null, null, null);
 			}
 
 			if (null != cvsbean.getGenre()) {
 				for (String genre : cvsbean.getGenre().split(regex)) {
-					Element childTypeGenre = new Element("genre", namespace);
-					childTypeGenre.addContent(genre);
-					rootElement.addContent(childTypeGenre);
+					createElementFromString(rootElement, "genre", namespace, genre, null, null, null, null, null, null);
 				}
 			}
 
@@ -141,224 +349,31 @@ public class OpenCsvIdep {
 				MultiValuedMap<String, String> repos = cvsbean.getInstitution_repository();
 				MultiSet<String> columnames = repos.keys();
 				for (String colName : columnames) {
-					Element childPhysicalLocation = new Element("physicalLocation", namespace);
-					childPhysicalLocation.addContent(repos.get(colName).iterator().next());
-					childPhysicalLocation.setAttribute("type", "repository");
-					childPhysicalLocation.setAttribute("displayLabel", "Repository Collection");
-					childLocation.addContent(childPhysicalLocation);
+					createElementFromString(childLocation, "physicalLocation", namespace, repos.get(colName).iterator().next(), "repository", "Repository Collection", null, null, null, null);
+					
 				}
 
 			}
 
 			if (null != cvsbean.getCollectionName()) {
-				Element childPhysicalLocation = new Element("physicalLocation", namespace);
-				childPhysicalLocation.addContent(cvsbean.getCollectionName());
-				childPhysicalLocation.setAttribute("type", "collection");
-				childPhysicalLocation.setAttribute("displayLabel", "Repository Collection");
-				childLocation.addContent(childPhysicalLocation);
+				createElementFromString(childLocation, "physicalLocation", namespace, cvsbean.getCollectionName(), "collection", "Repository Collection", null, null, null, null);
 			}
 
 			if (null != cvsbean.getCollectionNumber()) {
-				Element childPhysicalLocation = new Element("physicalLocation", namespace);
-				childPhysicalLocation.addContent(cvsbean.getCollectionNumber());
-				childPhysicalLocation.setAttribute("type", "collectionNumber");
-				childPhysicalLocation.setAttribute("displayLabel", "Collection Number");
-				childLocation.addContent(childPhysicalLocation);
+				createElementFromString(childLocation, "physicalLocation", namespace, cvsbean.getCollectionName(), "collectionNumber", "Collection Number", null, null, null, null);
 			}
 
 			if (null != cvsbean.getBox()) {
-				Element childPhysicalLocation = new Element("physicalLocation", namespace);
-				childPhysicalLocation.addContent(cvsbean.getBox());
-				childPhysicalLocation.setAttribute("type", "boxNumber");
-				childPhysicalLocation.setAttribute("displayLabel", "Box Number");
-				childLocation.addContent(childPhysicalLocation);
+				createElementFromString(childLocation, "physicalLocation", namespace, cvsbean.getBox(), "boxNumber", "Box Number", null, null, null, null);
 			}
 
 			if (null != cvsbean.getFolder()) {
-				Element childPhysicalLocation = new Element("physicalLocation", namespace);
-				childPhysicalLocation.addContent(cvsbean.getFolder());
-				childPhysicalLocation.setAttribute("type", "folderNumber");
-				childPhysicalLocation.setAttribute("displayLabel", "Folder Number");
-				childLocation.addContent(childPhysicalLocation);
+				createElementFromString(childLocation, "physicalLocation", namespace, cvsbean.getFolder(), "folderNumber", "Folder Number", null, null, null, null);			
 			}
 
-			if (null != cvsbean.getLanguages() && !cvsbean.getLanguages().isEmpty()) {
-				MultiValuedMap<String, String> languages = cvsbean.getLanguages();
-				Collection<Entry<String, String>> languageMap = languages.entries();
-				for (Entry<String, String> entry : languageMap) {
-					if (null != entry.getValue() && entry.getValue().trim().length() > 5) {
-						String[] langCol = entry.getValue().split(regex);
-						Element childLanguage = new Element("language", namespace);
-						Element childLanguageTermText = new Element("languageTerm", namespace);
-						childLanguageTermText.addContent(langCol[0].trim());
-						childLanguageTermText.setAttribute("type", "text");
-						childLanguage.addContent(childLanguageTermText);
-						Element childLanguageTermCode = new Element("languageTerm", namespace);
-						childLanguageTermCode.addContent(langCol[1].trim());
-						childLanguageTermCode.setAttribute("type", "code");
-						childLanguageTermCode.setAttribute("authority", "iso639-2b");
-						childLanguage.addContent(childLanguageTermCode);
-						rootElement.addContent(childLanguage);
-					}
-				}
-
-			}
-
-			if (null != cvsbean.getDates() && !cvsbean.getDates().isEmpty()) {
-				MultiValuedMap<String, String> dates = cvsbean.getDates();
-				MultiSet<String> columnames = dates.keys();
-				Element childDate = null;
-				for (String columnname : columnames) {
-					switch (columnname) {
-					case "Date.created":
-						if (dates.get(columnname).iterator().next().trim().length() > 0) {
-							childDate = new Element("dateCreated", namespace);
-							childDate.addContent(dates.get(columnname).iterator().next());
-							childOriginInfo.addContent(childDate);
-						}
-						break;
-					case "Date.created (single)":
-						if (dates.get(columnname).iterator().next().trim().length() > 0) {
-							childDate = new Element("dateCreated", namespace);
-							childDate.addContent(dates.get(columnname).iterator().next());
-							childDate.setAttribute("encoding", "iso8601");
-							childOriginInfo.addContent(childDate);
-						}
-						break;
-
-					case "Date.created (start)":
-						if (dates.get(columnname).iterator().next().trim().length() > 0) {
-							childDate = new Element("dateCreated", namespace);
-							childDate.addContent(dates.get(columnname).iterator().next());
-							childDate.setAttribute("encoding", "iso8601");
-							childDate.setAttribute("point", "start");
-							childOriginInfo.addContent(childDate);
-						}
-
-						break;
-					case "Date.created (end)":
-						if (dates.get(columnname).iterator().next().trim().length() > 0) {
-							childDate = new Element("dateCreated", namespace);
-							childDate.addContent(dates.get(columnname).iterator().next());
-							childDate.setAttribute("encoding", "iso8601");
-							childDate.setAttribute("point", "end");
-							childOriginInfo.addContent(childDate);
-						}
-						break;
-					case "Date.issued":
-						if (dates.get(columnname).iterator().next().trim().length() > 0) {
-							childDate = new Element("dateIssued", namespace);
-							childDate.addContent(dates.get(columnname).iterator().next());
-							childOriginInfo.addContent(childDate);
-						}
-						break;
-					case "Date.issued (single)":
-						if (dates.get(columnname).iterator().next().trim().length() > 0) {
-							childDate = new Element("dateIssued", namespace);
-							childDate.addContent(dates.get(columnname).iterator().next());
-							childDate.setAttribute("encoding", "iso8601");
-							childOriginInfo.addContent(childDate);
-						}
-						break;
-
-					case "Date.issued (start)":
-						if (dates.get(columnname).iterator().next().trim().length() > 0) {
-							childDate = new Element("dateIssued", namespace);
-							childDate.addContent(dates.get(columnname).iterator().next());
-							childDate.setAttribute("encoding", "iso8601");
-							childDate.setAttribute("point", "start");
-							childOriginInfo.addContent(childDate);
-						}
-
-						break;
-					case "Date.issued (end)":
-						if (dates.get(columnname).iterator().next().trim().length() > 0) {
-							childDate = new Element("dateIssued", namespace);
-							childDate.addContent(dates.get(columnname).iterator().next());
-							childDate.setAttribute("encoding", "iso8601");
-							childDate.setAttribute("point", "end");
-							childOriginInfo.addContent(childDate);
-						}
-						break;
-
-					default:
-						break;
-					}
-				}
-
-			}
-
-			if (null != cvsbean.getSubjects() && !cvsbean.getSubjects().isEmpty()) {
-				MultiValuedMap<String, String> subjects = cvsbean.getSubjects();
-				MultiSet<String> columnames = subjects.keys();
-				Element childSubject = null;
-				for (String columnname : columnames) {
-					switch (columnname) {
-					case "Subject.name":
-						if (subjects.get(columnname).iterator().next().trim().length() > 0) {
-							for (String subjectName : subjects.get(columnname).iterator().next().trim().split(regex)) {
-								childSubject = new Element("subject", namespace);
-								Element childName = new Element("name", namespace);
-								Element childNamePart = new Element("namePart", namespace);
-								childNamePart.addContent(subjectName);
-								childName.addContent(childNamePart);
-								childSubject.addContent(childName);
-								rootElement.addContent(childSubject);
-							}
-
-						}
-						break;
-					case "Subject.topic":
-						if (subjects.get(columnname).iterator().next().trim().length() > 0) {
-							childSubject = new Element("subject", namespace);
-							for (String topic : subjects.get(columnname).iterator().next().split(regex)) {
-								Element childTopic = new Element("topic", namespace);
-								childTopic.addContent(topic);
-								childSubject.addContent(childTopic);
-							}
-							rootElement.addContent(childSubject);
-						}
-						break;
-					case "Subject.place":
-						if (subjects.get(columnname).iterator().next().trim().length() > 0) {
-							childSubject = new Element("subject", namespace);
-							for (String geography : subjects.get(columnname).iterator().next().split(regex)) {
-								Element childGeographic = new Element("geographic", namespace);
-								childGeographic.addContent(geography);
-								childSubject.addContent(childGeographic);
-							}
-							rootElement.addContent(childSubject);
-						}
-						break;
-					case "Subject.coordinates":
-						if (subjects.get(columnname).iterator().next().trim().length() > 0) {
-							childSubject = new Element("subject", namespace);
-							Element childCartographics = new Element("cartographics", namespace);
-							Element childCoordinates = new Element("coordinates", namespace);
-							childCoordinates.addContent(subjects.get(columnname).iterator().next());
-							childCartographics.addContent(childCoordinates);
-							childSubject.addContent(childCartographics);
-							rootElement.addContent(childSubject);
-						}
-						break;
-					case "Subject.temporal":
-						if (subjects.get(columnname).iterator().next().trim().length() > 0) {
-							childSubject = new Element("subject", namespace);
-							for (String temporal : subjects.get(columnname).iterator().next().split(regex)) {
-								Element childTemporal = new Element("temporal", namespace);
-								childTemporal.addContent(temporal);
-								childSubject.addContent(childTemporal);
-							}
-
-							rootElement.addContent(childSubject);
-						}
-						break;
-					default:
-						break;
-					}
-				}
-
-			}
+			createLanguage(rootElement,namespace,cvsbean);
+			createDateElement(childOriginInfo,namespace,cvsbean);
+			createSubjectElement(rootElement, namespace, cvsbean);
 
 			if (null != cvsbean.getTitles() && !cvsbean.getTitles().isEmpty()) {
 
@@ -470,7 +485,7 @@ public class OpenCsvIdep {
 					if (contributors.get(columnname).iterator().next().trim().length() > 0) {
 						for (String contributor : contributors.get(columnname).iterator().next().split(regex)) {
 							String[] contributorCol = columnname.split(regex);
-							
+
 							Element childName = new Element("name", namespace);
 							// for( String namePart : record.get("columname").split(regex)) {
 							Element childNamePart = new Element("namePart", namespace);
@@ -580,19 +595,19 @@ public class OpenCsvIdep {
 						String notevalue = notesValues.next();
 						if (notevalue.trim().length() > 0) {
 							String[] noteType = noteCol[0].split(regexDot);
-							if (noteType.length > 1 && "license".equalsIgnoreCase( noteType[1].trim())) {
+							if (noteType.length > 1 && "license".equalsIgnoreCase(noteType[1].trim())) {
 								Element childAccessConditionLicense = new Element("accessCondition", namespace);
 								childAccessConditionLicense.setAttribute("type", "use and reproduction");
 								childAccessConditionLicense.addContent(notevalue.trim());
 								rootElement.addContent(childAccessConditionLicense);
-							}else {
+							} else {
 								Element childNote = new Element("note", namespace);
 								if (noteCol.length > 1) {
 
 									childNote.setAttribute("lang", noteCol[1].trim());
 
 								}
-								 
+
 								if (noteType.length > 1) {
 									childNote.setAttribute("type", noteType[1].trim());
 									childNote.setAttribute("displayLabel", noteType[1].trim());
@@ -602,8 +617,7 @@ public class OpenCsvIdep {
 
 								rootElement.addContent(childNote);
 							}
-							
-							
+
 						}
 					}
 
@@ -627,17 +641,17 @@ public class OpenCsvIdep {
 					String[] rightsCol = columnname.split(regexDot);
 
 					switch (rightsCol[1]) {
-					
-					case "URI": //not allowed in copyright schema
-					  //childCopyright.setAttribute("href",
-					  //rights.get(columnname).iterator().next(),namespacexlink);
-					  Element childAccessConditionRights = new Element("accessCondition", namespace);
-					  childAccessConditionRights.setAttribute("type", "use and reproduction");
-					  childAccessConditionRights.setAttribute("displayLabel", "rightsUri");
-					  childAccessConditionRights.addContent(rights.get(columnname).iterator().next());
+
+					case "URI": // not allowed in copyright schema
+						// childCopyright.setAttribute("href",
+						// rights.get(columnname).iterator().next(),namespacexlink);
+						Element childAccessConditionRights = new Element("accessCondition", namespace);
+						childAccessConditionRights.setAttribute("type", "use and reproduction");
+						childAccessConditionRights.setAttribute("displayLabel", "rightsUri");
+						childAccessConditionRights.addContent(rights.get(columnname).iterator().next());
 						rootElement.addContent(childAccessConditionRights);
-					  break;
-					 
+						break;
+
 					case "copyrightStatus":
 						childCopyright.setAttribute("copyright.status", rights.get(columnname).iterator().next());
 						// childCopyright.setAttribute("copyright.status", "unknown");
@@ -659,11 +673,14 @@ public class OpenCsvIdep {
 						rootElement.addContent(childAccessConditionNote);
 						break;
 					case "license":
-						/*Element childAccessConditionLicense = new Element("accessCondition", namespace);
-						childAccessConditionLicense.setAttribute("type", "use and reproduction");
-						childAccessConditionLicense.addContent(rights.get(columnname).iterator().next());
-						rootElement.addContent(childAccessConditionLicense);*/
-						break;	
+						/*
+						 * Element childAccessConditionLicense = new Element("accessCondition",
+						 * namespace); childAccessConditionLicense.setAttribute("type",
+						 * "use and reproduction");
+						 * childAccessConditionLicense.addContent(rights.get(columnname).iterator().next
+						 * ()); rootElement.addContent(childAccessConditionLicense);
+						 */
+						break;
 
 					default:
 						break;
@@ -745,4 +762,5 @@ public class OpenCsvIdep {
 
 	}
 
+	
 }
