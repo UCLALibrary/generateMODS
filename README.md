@@ -28,8 +28,11 @@ git clone https://github.com/UCLALibrary/GenerateMODS.git
 cd GenerateMods
 ls
 ``` 
+## THE UPDATED WAY TO RUN THIS PROJECT
+git pull
+PS \eclipse-workspace\GenerateMODS\target> java -jar .\GenerateMods.jar C:\Users\pghorpade\Downloads\barb_eph_ab_metadata.csv C:\Users\pghorpade\Downloads\mods MEAP
 
-## Project Setup
+## Project Setup DEPRECATED
 
 #### 1. Open the project
 

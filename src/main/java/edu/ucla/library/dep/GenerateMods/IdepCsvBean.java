@@ -20,6 +20,28 @@ public class IdepCsvBean {
 	 @CsvBindByName(column = "License")
      private String license;
 	 
+	 public String getLocalRightsStatement() {
+		return localRightsStatement;
+	}
+
+
+	public void setLocalRightsStatement(String localRightsStatement) {
+		this.localRightsStatement = localRightsStatement;
+	}
+
+
+	public String getRelated_resource() {
+		return related_resource;
+	}
+
+
+	public void setRelated_resource(String related_resource) {
+		this.related_resource = related_resource;
+	}
+
+	@CsvBindByName(column = "Local rights statement")
+	 private String localRightsStatement;
+	 
 	 public String getLicense() {
 		return license;
 	}
@@ -28,9 +50,12 @@ public class IdepCsvBean {
 	public void setLicense(String license) {
 		this.license = license;
 	}
+	
+	@CsvBindByName(column = "Related resource")
+    private String related_resource;
 
-	@CsvBindByName(column = "Collection")
-     private String collection;
+	@CsvBindAndJoinByName(column = "(Collection|Digital Collection Title)", elementType = String.class)
+     private MultiValuedMap<String, String> collection;
 	 
 	 @CsvBindByName(column = "Series")
      private String series;
@@ -57,22 +82,22 @@ public class IdepCsvBean {
 	 @CsvBindAndJoinByName(column = "(Institution|Insitution)/Repository", elementType = String.class)
      private MultiValuedMap<String, String> institution_repository;
 	 
-	 @CsvBindByName(column = "collection name")
-     private String collectionName;
+	 @CsvBindAndJoinByName(column = "(collection name|Archival collection name )", elementType = String.class)
+     private MultiValuedMap<String, String> collectionName;
 	 
-	 @CsvBindByName(column = "collection number")
-     private String collectionNumber;
+	 @CsvBindAndJoinByName(column = "(collection number|Archival collection number or identifier)", elementType = String.class)
+     private MultiValuedMap<String, String> collectionNumber;
 	 
-	 @CsvBindByName(column = "box")
-     private String box;
+	 @CsvBindAndJoinByName(column = "(box|box number)", elementType = String.class)
+     private MultiValuedMap<String, String> box;
 	 
-	 @CsvBindByName(column = "folder")
-     private String folder;
+	 @CsvBindAndJoinByName(column = "(folder|folder number)", elementType = String.class)
+     private MultiValuedMap<String, String> folder;
 	 
-	 @CsvBindAndJoinByName(column = "TRANSLATED TITLE.*", elementType = String.class)
+	 @CsvBindAndJoinByName(column = "(TRANSLATED TITLE|Alternative title).*", elementType = String.class)
      private MultiValuedMap<String, String> translated_title;
 	 
-	 @CsvBindAndJoinByName(column = "ALT TITLE.*", elementType = String.class)
+	 @CsvBindAndJoinByName(column = "(ALT TITLE|English translation of title).*", elementType = String.class)
      private MultiValuedMap<String, String> alt_titles;
 	
 	 
@@ -92,7 +117,7 @@ public class IdepCsvBean {
 	}*/
 
 
-	@CsvBindAndJoinByName(column = "TITLE.*", elementType = String.class)
+	@CsvBindAndJoinByName(column = "(TITLE|Original language title).*", elementType = String.class)
      private MultiValuedMap<String, String> titles;
 	 
 
@@ -102,10 +127,10 @@ public class IdepCsvBean {
      @CsvBindAndJoinByName(column = "PUBLISHER.*", elementType = String.class)
      private MultiValuedMap<String, String> publishers;
      
-     @CsvBindAndJoinByName(column = "DATE.*", elementType = String.class)
+     @CsvBindAndJoinByName(column = "(DATE|Date (human)).*", elementType = String.class)
      private MultiValuedMap<String, String> dates;
      
-     @CsvBindAndJoinByName(column = "PHYSICALDESCRIPTION.*", elementType = String.class)
+     @CsvBindAndJoinByName(column = "PHYSICALDESCRIPTION.*|Extent|Dimensions|Medium", elementType = String.class)
      private MultiValuedMap<String, String> physicalDescription;  
      
 	@CsvBindAndJoinByName(column = "LANGUAGE.*", elementType = String.class)
@@ -117,7 +142,7 @@ public class IdepCsvBean {
      @CsvBindAndJoinByName(column = "NOTE.*", elementType = String.class)
      private MultiValuedMap<String, String> notes;
      
-     @CsvBindAndJoinByName(column = "SUBJECT.*", elementType = String.class)
+     @CsvBindAndJoinByName(column = "SUBJECT.*|Latitude/longitude", elementType = String.class)
      private MultiValuedMap<String, String> subjects;
      
      @CsvBindAndJoinByName(column = "RIGHTS.*", elementType = String.class)
@@ -149,12 +174,12 @@ public class IdepCsvBean {
  	}
 
 
- 	public String getCollection() {
+ 	public MultiValuedMap<String, String> getCollection() {
  		return collection;
  	}
 
 
- 	public void setCollection(String collection) {
+ 	public void setCollection(MultiValuedMap<String, String> collection) {
  		this.collection = collection;
  	}
 
@@ -320,42 +345,42 @@ public class IdepCsvBean {
 	}
 
 
-	public String getCollectionName() {
+	public MultiValuedMap<String, String> getCollectionName() {
 		return collectionName;
 	}
 
 
-	public void setCollectionName(String collectionName) {
+	public void setCollectionName(MultiValuedMap<String, String> collectionName) {
 		this.collectionName = collectionName;
 	}
 
 
-	public String getCollectionNumber() {
+	public MultiValuedMap<String, String> getCollectionNumber() {
 		return collectionNumber;
 	}
 
 
-	public void setCollectionNumber(String collectionNumber) {
+	public void setCollectionNumber(MultiValuedMap<String, String> collectionNumber) {
 		this.collectionNumber = collectionNumber;
 	}
 
 
-	public String getBox() {
+	public MultiValuedMap<String, String> getBox() {
 		return box;
 	}
 
 
-	public void setBox(String box) {
+	public void setBox(MultiValuedMap<String, String> box) {
 		this.box = box;
 	}
 
 
-	public String getFolder() {
+	public MultiValuedMap<String, String> getFolder() {
 		return folder;
 	}
 
 
-	public void setFolder(String folder) {
+	public void setFolder(MultiValuedMap<String, String> folder) {
 		this.folder = folder;
 	}
 
@@ -395,8 +420,9 @@ public class IdepCsvBean {
 	@Override
 	public String toString() {
 		return "IdepCsvBean [fileName=" + fileName + ", streamingURL=" + streamingURL + ", localID=" + localID
-				+ ", license=" + license + ", collection=" + collection + ", series=" + series + ", subSeries="
-				+ subSeries + ", typeOfResource=" + typeOfResource + ", genre=" + genre + ", institution_repository="
+				+ ", license=" + license + ", localRightsStatement=" + localRightsStatement + ", related_resource="
+				+ related_resource + ", collection=" + collection + ", series=" + series + ", subSeries=" + subSeries
+				+ ", typeOfResource=" + typeOfResource + ", genre=" + genre + ", institution_repository="
 				+ institution_repository + ", collectionName=" + collectionName + ", collectionNumber="
 				+ collectionNumber + ", box=" + box + ", folder=" + folder + ", translated_title=" + translated_title
 				+ ", alt_titles=" + alt_titles + ", titles=" + titles + ", creators=" + creators + ", publishers="
