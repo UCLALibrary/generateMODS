@@ -371,7 +371,7 @@ public class OpenCsvIdep {
 				MultiSet<String> columnames = repos.keys();
 				for (String colName : columnames) {
 					createElementFromString(childLocation, "physicalLocation", namespace,
-							repos.get(colName).iterator().next(), "repository", "Repository Collection", null, null,
+							repos.get(colName).iterator().next(), "repository", "Repository", null, null,
 							null, null);
 
 				}
