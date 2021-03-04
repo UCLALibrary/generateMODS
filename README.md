@@ -30,8 +30,23 @@ ls
 ``` 
 ## THE UPDATED WAY TO RUN THIS PROJECT
 git pull
-PS \eclipse-workspace\GenerateMODS\target> java -jar .\GenerateMods.jar C:\Users\pghorpade\Downloads\barb_eph_ab_metadata.csv C:\Users\pghorpade\Downloads\mods MEAP
-
+PS \eclipse-workspace\GenerateMODS\target> java -jar .\GenerateMods-0.0.1-SNAPSHOT-jar-with-dependencies.jar 
+Enter InputFilePath is: 
+/Users/testuser/Downloads/barb_eph_cicz_Finalv6.csv
+InputFilePath is: /Users/testuser/Downloads/barb_eph_cicz_Finalv6.csv
+Enter OutputFilePath is: 
+/Users/testuser/Downloads/mods/
+OutputFilePath is: /Users/testuser/Downloads/mods/
+Enter Enter program (IDEP or MEAP): 
+MEAP
+Enter program (IDEP or MEAP): MEAP
+Program is: MEAP
+Enter Project name is: 
+GOOGLW
+Project name is: sample
+Enter Project URL is: 
+google.com
+Project URL is: sample.com
 ## Project Setup DEPRECATED
 
 #### 1. Open the project

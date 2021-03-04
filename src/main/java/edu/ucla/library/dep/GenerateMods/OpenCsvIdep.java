@@ -234,26 +234,23 @@ public class OpenCsvIdep {
 		childRelatedItem.addContent(childTitleInfo);
 		rootElement.addContent(childRelatedItem);
 	}
+
 	public static void createProjectElement(Element rootElement, Namespace namespace, String typeValue,
 			String titleValue, String locationValue) {
 		// TODO Auto-generated method stub
-		
 
 		if (null != titleValue) {
 			Element childRelatedItem = new Element("relatedItem", namespace);
 			childRelatedItem.setAttribute(TYPE, typeValue);
 			Element childTitleInfo = new Element("titleInfo", namespace);
-			createElementFromString(childTitleInfo, "title", namespace, titleValue, null, null, null, null, null,
-					null);
+			createElementFromString(childTitleInfo, "title", namespace, titleValue, null, null, null, null, null, null);
 			childRelatedItem.addContent(childTitleInfo);
 			Element childLocation = new Element("location", namespace);
-			createElementFromString(childLocation, "url", namespace, locationValue, null, null, null, null, null,
-					null);
+			createElementFromString(childLocation, "url", namespace, locationValue, null, null, null, null, null, null);
 			childRelatedItem.addContent(childLocation);
 			rootElement.addContent(childRelatedItem);
 		}
 
-		
 	}
 
 	public static void createElementFromString(Element parentElement, String elementName, Namespace namespace,
@@ -295,13 +292,12 @@ public class OpenCsvIdep {
 		Namespace namespacexsi = Namespace.getNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
 		Namespace namespaceCopyrightMD = Namespace.getNamespace("copyrightMD",
 				"http://www.cdlib.org/inside/diglib/copyrightMD");
-		
+
 		inputfilePath = getInput("InputFilePath is: ");
 		outputfilePath = getInput("OutputFilePath is: ");
 		program = getInput("Enter program (IDEP or MEAP): ");
-		
-	       
-	    System.out.println("Program is: " + program);
+
+		System.out.println("Program is: " + program);
 		if (null == program || null == inputfilePath || null == outputfilePath) {
 			System.out.println(
 					"Proper Usage is: java -jar GenerateMods.jar \n Enter user input for program, inputfilepath, outputfilepath");
@@ -309,7 +305,7 @@ public class OpenCsvIdep {
 		}
 		projectName = getInput("Project name is: ");
 		projectURL = getInput("Project URL is: ");
-		
+
 		List<IdepCsvBean> beans = new CsvToBeanBuilder<IdepCsvBean>(new FileReader(inputfilePath))
 				.withType(IdepCsvBean.class).build().parse();
 		for (IdepCsvBean cvsbean : beans) {
@@ -396,8 +392,7 @@ public class OpenCsvIdep {
 				MultiSet<String> columnames = repos.keys();
 				for (String colName : columnames) {
 					createElementFromString(childLocation, "physicalLocation", namespace,
-							repos.get(colName).iterator().next(), "repository", "Repository", null, null,
-							null, null);
+							repos.get(colName).iterator().next(), "repository", "Repository", null, null, null, null);
 
 				}
 
@@ -407,40 +402,43 @@ public class OpenCsvIdep {
 				MultiValuedMap<String, String> collectionNames = cvsbean.getCollectionName();
 				MultiSet<String> columnames = collectionNames.keys();
 				for (String colName : columnames) {
-					createElementFromString(childLocation, "physicalLocation", namespace, collectionNames.get(colName).iterator().next(),
-							"collection", "Repository Collection", null, null, null, null);
+					createElementFromString(childLocation, "physicalLocation", namespace,
+							collectionNames.get(colName).iterator().next(), "collection", "Repository Collection", null,
+							null, null, null);
 				}
-				
+
 			}
 
 			if (null != cvsbean.getCollectionNumber()) {
 				MultiValuedMap<String, String> collectionNumbers = cvsbean.getCollectionNumber();
 				MultiSet<String> columnames = collectionNumbers.keys();
 				for (String colName : columnames) {
-					createElementFromString(childLocation, "physicalLocation", namespace, collectionNumbers.get(colName).iterator().next(),
-							"collectionNumber", "Collection Number", null, null, null, null);
+					createElementFromString(childLocation, "physicalLocation", namespace,
+							collectionNumbers.get(colName).iterator().next(), "collectionNumber", "Collection Number",
+							null, null, null, null);
 				}
-				
+
 			}
 
 			if (null != cvsbean.getBox()) {
 				MultiValuedMap<String, String> boxes = cvsbean.getBox();
 				MultiSet<String> columnames = boxes.keys();
 				for (String colName : columnames) {
-					createElementFromString(childLocation, "physicalLocation", namespace, boxes.get(colName).iterator().next(), "boxNumber",
-							"Box Number", null, null, null, null);
+					createElementFromString(childLocation, "physicalLocation", namespace,
+							boxes.get(colName).iterator().next(), "boxNumber", "Box Number", null, null, null, null);
 				}
-				
+
 			}
 
 			if (null != cvsbean.getFolder()) {
 				MultiValuedMap<String, String> folders = cvsbean.getFolder();
 				MultiSet<String> columnames = folders.keys();
 				for (String colName : columnames) {
-					createElementFromString(childLocation, "physicalLocation", namespace, folders.get(colName).iterator().next(),
-							"folderNumber", "Folder Number", null, null, null, null);
+					createElementFromString(childLocation, "physicalLocation", namespace,
+							folders.get(colName).iterator().next(), "folderNumber", "Folder Number", null, null, null,
+							null);
 				}
-				
+
 			}
 
 			createLanguage(rootElement, namespace, cvsbean);
@@ -831,12 +829,13 @@ public class OpenCsvIdep {
 			// xmlOutput.output(jdomDoc, System.out);
 
 			// passed fileWriter to write content in specified file
-			
+
 			xmlOutput.setFormat(Format.getPrettyFormat().setEncoding("UTF-8"));
-			xmlOutput.output(jdomDoc,
-					new OutputStreamWriter(new FileOutputStream(outputfilePath
-							+ cvsbean.getFileName().replaceFirst("pdf", "xml").replaceFirst("tif", "xml")
-									.replaceFirst("mp4", "xml").replaceFirst("mp3", "xml").replaceFirst("jpg", "xml")), StandardCharsets.UTF_8));
+			xmlOutput.output(jdomDoc, new OutputStreamWriter(
+					new FileOutputStream(
+							outputfilePath + cvsbean.getFileName().replaceFirst("pdf", "xml").replaceFirst("tif", "xml")
+									.replaceFirst("mp4", "xml").replaceFirst("mp3", "xml").replaceFirst("jpg", "xml")),
+					StandardCharsets.UTF_8));
 
 		}
 
@@ -846,12 +845,12 @@ public class OpenCsvIdep {
 		String input = null;
 		Scanner myObj = new Scanner(System.in);
 		// Enter input file path and press Enter
-	    System.out.println("Enter "+inputText); 
-	    input = myObj.nextLine();   
-	       
-	    System.out.println(inputText + input);
-	    //myObj.close();
-	    return input;
+		System.out.println("Enter " + inputText);
+		input = myObj.nextLine();
+
+		System.out.println(inputText + input);
+		// myObj.close();
+		return input;
 	}
 
 }
