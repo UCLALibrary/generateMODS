@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.regex.Pattern;
 import org.apache.commons.collections4.MultiSet;
@@ -233,6 +234,27 @@ public class OpenCsvIdep {
 		childRelatedItem.addContent(childTitleInfo);
 		rootElement.addContent(childRelatedItem);
 	}
+	public static void createProjectElement(Element rootElement, Namespace namespace, String typeValue,
+			String titleValue, String locationValue) {
+		// TODO Auto-generated method stub
+		
+
+		if (null != titleValue) {
+			Element childRelatedItem = new Element("relatedItem", namespace);
+			childRelatedItem.setAttribute(TYPE, typeValue);
+			Element childTitleInfo = new Element("titleInfo", namespace);
+			createElementFromString(childTitleInfo, "title", namespace, titleValue, null, null, null, null, null,
+					null);
+			childRelatedItem.addContent(childTitleInfo);
+			Element childLocation = new Element("location", namespace);
+			createElementFromString(childLocation, "url", namespace, locationValue, null, null, null, null, null,
+					null);
+			childRelatedItem.addContent(childLocation);
+			rootElement.addContent(childRelatedItem);
+		}
+
+		
+	}
 
 	public static void createElementFromString(Element parentElement, String elementName, Namespace namespace,
 			String elementValue, String typeValue, String displayLabelValue, String langValue, String encodingValue,
@@ -266,26 +288,28 @@ public class OpenCsvIdep {
 		String program = null;
 		String inputfilePath = null;
 		String outputfilePath = null;
+		String projectName = null;
+		String projectURL = null;
 		Namespace namespace = Namespace.getNamespace("mods", "http://www.loc.gov/mods/v3");
 		Namespace namespacexlink = Namespace.getNamespace("xlink", "http://www.w3.org/1999/xlink");
 		Namespace namespacexsi = Namespace.getNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
 		Namespace namespaceCopyrightMD = Namespace.getNamespace("copyrightMD",
 				"http://www.cdlib.org/inside/diglib/copyrightMD");
-
-		if (args.length == 0) {
+		
+		inputfilePath = getInput("InputFilePath is: ");
+		outputfilePath = getInput("OutputFilePath is: ");
+		program = getInput("Enter program (IDEP or MEAP): ");
+		
+	       
+	    System.out.println("Program is: " + program);
+		if (null == program || null == inputfilePath || null == outputfilePath) {
 			System.out.println(
-					"Proper Usage is: java -jar GenerateMods.jar inputfilepath outputfilepath IDEP or java -jar GenerateMods.jar filepath outputfilepath MEAP");
+					"Proper Usage is: java -jar GenerateMods.jar \n Enter user input for program, inputfilepath, outputfilepath");
 			System.exit(0);
 		}
-
-		try {
-			inputfilePath = args[0];
-			outputfilePath = args[1];
-			program = args[2];
-		} catch (ArrayIndexOutOfBoundsException ex) {
-			System.out.println("ArrayIndexOutOfBoundsException caught");
-			System.exit(0);
-		}
+		projectName = getInput("Project name is: ");
+		projectURL = getInput("Project URL is: ");
+		
 		List<IdepCsvBean> beans = new CsvToBeanBuilder<IdepCsvBean>(new FileReader(inputfilePath))
 				.withType(IdepCsvBean.class).build().parse();
 		for (IdepCsvBean cvsbean : beans) {
@@ -300,6 +324,7 @@ public class OpenCsvIdep {
 					"http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-4.xsd", namespacexsi);
 			Element childOriginInfo = new Element("originInfo", namespace);
 			Element childLocation = new Element("location", namespace);
+			createProjectElement(rootElement, namespace, "host", projectName, projectURL);
 			if (null != cvsbean.getFileName()) {
 				createElementFromString(rootElement, "identifier", namespace, cvsbean.getFileName(), "local",
 						"File name", null, null, null, null);
@@ -815,6 +840,18 @@ public class OpenCsvIdep {
 
 		}
 
+	}
+
+	private static String getInput(String inputText) {
+		String input = null;
+		Scanner myObj = new Scanner(System.in);
+		// Enter input file path and press Enter
+	    System.out.println("Enter InputFilePath:"); 
+	    input = myObj.nextLine();   
+	       
+	    System.out.println(inputText + input);
+	    
+	    return input;
 	}
 
 }
