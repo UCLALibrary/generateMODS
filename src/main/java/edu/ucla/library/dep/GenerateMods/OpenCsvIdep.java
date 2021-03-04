@@ -834,7 +834,7 @@ public class OpenCsvIdep {
 			
 			xmlOutput.setFormat(Format.getPrettyFormat().setEncoding("UTF-8"));
 			xmlOutput.output(jdomDoc,
-					new OutputStreamWriter(new FileOutputStream(outputfilePath + "\\"
+					new OutputStreamWriter(new FileOutputStream(outputfilePath
 							+ cvsbean.getFileName().replaceFirst("pdf", "xml").replaceFirst("tif", "xml")
 									.replaceFirst("mp4", "xml").replaceFirst("mp3", "xml").replaceFirst("jpg", "xml")), StandardCharsets.UTF_8));
 
@@ -842,15 +842,15 @@ public class OpenCsvIdep {
 
 	}
 
-	private static String getInput(String inputText) {
+	public static String getInput(String inputText) {
 		String input = null;
 		Scanner myObj = new Scanner(System.in);
 		// Enter input file path and press Enter
-	    System.out.println("Enter InputFilePath:"); 
+	    System.out.println("Enter "+inputText); 
 	    input = myObj.nextLine();   
 	       
 	    System.out.println(inputText + input);
-	    
+	    //myObj.close();
 	    return input;
 	}
 
