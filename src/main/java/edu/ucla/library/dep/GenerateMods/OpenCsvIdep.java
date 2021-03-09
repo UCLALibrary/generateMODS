@@ -236,12 +236,13 @@ public class OpenCsvIdep {
 	}
 
 	public static void createProjectElement(Element rootElement, Namespace namespace, String typeValue,
-			String titleValue, String locationValue) {
+			String displayLabelValue, String titleValue, String locationValue) {
 		// TODO Auto-generated method stub
 
 		if (null != titleValue) {
 			Element childRelatedItem = new Element("relatedItem", namespace);
 			childRelatedItem.setAttribute(TYPE, typeValue);
+			childRelatedItem.setAttribute(DISPLAY_LABEL, displayLabelValue);
 			Element childTitleInfo = new Element("titleInfo", namespace);
 			createElementFromString(childTitleInfo, "title", namespace, titleValue, null, null, null, null, null, null);
 			childRelatedItem.addContent(childTitleInfo);
@@ -320,7 +321,7 @@ public class OpenCsvIdep {
 					"http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-4.xsd", namespacexsi);
 			Element childOriginInfo = new Element("originInfo", namespace);
 			Element childLocation = new Element("location", namespace);
-			createProjectElement(rootElement, namespace, "host", projectName, projectURL);
+			createProjectElement(rootElement, namespace, "host", "project", projectName, projectURL);
 			if (null != cvsbean.getFileName()) {
 				createElementFromString(rootElement, "identifier", namespace, cvsbean.getFileName(), "local",
 						"File name", null, null, null, null);
