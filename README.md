@@ -1,6 +1,6 @@
 # GenerateMODS maven application
 
-#### This OPENCSV project is used to create MODS from a spreadsheet for IDEP
+#### This openCSV library is used to create MODS from a spreadsheet for IDEP
 #### The spreadsheet mapping is [here](https://docs.google.com/spreadsheets/d/1TTQKmFVWYumsWC5QwKf5E7bxzAmgnefOHrzAiCiQfrU/edit#gid=15338334)
 #### This should not be used for  `Green Movement`
 # Environment Setup - Windows 10 64-bit
@@ -29,6 +29,7 @@ cd GenerateMods
 ls
 ``` 
 ## THE UPDATED WAY TO RUN THIS PROJECT
+```Shell
 git pull
 PS \eclipse-workspace\GenerateMODS\target> java -jar .\GenerateMods-0.0.1-SNAPSHOT-jar-with-dependencies.jar 
 Enter InputFilePath is: 
@@ -47,6 +48,7 @@ Project name is: sample
 Enter Project URL is: 
 google.com
 Project URL is: sample.com
+```
 ## Project Setup DEPRECATED
 
 #### 1. Open the project
