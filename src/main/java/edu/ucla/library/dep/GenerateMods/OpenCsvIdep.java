@@ -138,8 +138,11 @@ public class OpenCsvIdep {
 					break;
 				case "Date.created":
 					if (dates.get(columnname).iterator().next().trim().length() > 0) {
-						createElementFromString(childOriginInfo, "dateCreated", namespace,
-								dates.get(columnname).iterator().next(), null, null, null, null, null, null);
+						for (String dateValue : dates.get(columnname).iterator().next().split(regex)) {
+							createElementFromString(childOriginInfo, "dateCreated", namespace,
+									dateValue, null, null, null, null, null, null);
+						}
+						
 					}
 					break;
 				case "Date.created (single)":
