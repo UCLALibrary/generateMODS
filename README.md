@@ -72,14 +72,19 @@ Project URL is: sample.com
  #### Generate a jar file with dependencies
  
   Right click the pom.xml
+  
   Click `Run As` in the list
+  
   Click `maven install`
+  
   Test the app with the instruction above.
 
 #### Next commit the changes to git  
 
   Create PR for this change.
+  
   Review and Merge the PR.
+  
   Inform the stakeholders.
   
 ## Project Setup DEPRECATED
