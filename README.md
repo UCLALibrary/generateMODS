@@ -49,6 +49,39 @@ Enter Project URL is:
 google.com
 Project URL is: sample.com
 ```
+## Project Setup Current to build a jar file using maven
+
+#### 1. Open the project
+
+  Run Eclipse IDE  
+ 
+  The working directory is the default `\eclipse-workspace`  
+  Click `Launch`
+  
+##### 1.1 Open Project Wizard.
+
+  Click `File Menu`
+  Click  `Open Projects from the file system` 
+
+  Next to Source file box click `directory`
+  Select folder `GenerateMods`
+  Click `Finish`
+ 
+ #### Create a branch and make any changes to code as per the ticket
+ 
+ #### Generate a jar file with dependencies
+ 
+  Right click the pom.xml
+  Click `Run As` in the list
+  Click `maven install`
+  Test the app with the instruction above.
+
+#### Next commit the changes to git  
+
+  Create PR for this change.
+  Review and Merge the PR.
+  Inform the stakeholders.
+  
 ## Project Setup DEPRECATED
 
 #### 1. Open the project
