@@ -70,8 +70,7 @@ public class AssembleMods {
             
             ModsRelatedItem items = new ModsRelatedItem();
             items.createRelatedItems(rootElement, projectName, projectURL, program, csvbean);
-           
-            
+          
 
             if (null != csvbean.getTypeOfResource()) {
                 baseElement.createElementFromString(rootElement, "typeOfResource", Constants.namespace, csvbean.getTypeOfResource(), null,
@@ -83,8 +82,7 @@ public class AssembleMods {
                     baseElement.createElementFromString(rootElement, "genre", Constants.namespace, genre, null, null, null, null, null, null);
                 }
             }
-
-            
+          
 
             ModsPhysicalLocation modsPhysicalLocation = new ModsPhysicalLocation(csvbean);
             modsPhysicalLocation.createPhysicalLocationElements(rootElement);
@@ -119,8 +117,6 @@ public class AssembleMods {
             
             // write to xml file
             createFile(rootElement, csvbean);
-
-
 
         }
     }

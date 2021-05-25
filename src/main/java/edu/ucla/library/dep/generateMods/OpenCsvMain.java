@@ -28,6 +28,7 @@ public class OpenCsvMain {
 
 	public static String getInput(String inputText) {
 		String input;
+		@SuppressWarnings("resource")
 		Scanner myObj = new Scanner(System.in);
 		
 		// Enter input file path and press Enter
@@ -35,7 +36,7 @@ public class OpenCsvMain {
 		input = myObj.nextLine();
 
 		System.out.println(inputText + input);
-		myObj.close();
+		// myObj.close();
 		return input;
 	}
 

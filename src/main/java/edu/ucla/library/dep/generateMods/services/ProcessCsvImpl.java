@@ -29,7 +29,7 @@ public class ProcessCsvImpl implements ProcessCSV {
      */
     public void createProjectElement(Element rootElement, Namespace namespace, String typeValue,
                                      String titleValue, String locationValue) {
-        if (null != titleValue) {
+        if (null != titleValue && !"".equals(titleValue.trim())){
             Element childRelatedItem = new Element("relatedItem", namespace);
             childRelatedItem.setAttribute(Constants.TYPE, typeValue);
             Element childTitleInfo = new Element("titleInfo", namespace);
