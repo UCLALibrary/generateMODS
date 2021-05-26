@@ -110,7 +110,7 @@ Project URL is: sample.com
 + On the left side , click the `Project Explorer` tab
 + You will see the `GenerateMods` projects in this window
 + uncollapse this projects and open `src\main\java` 
-+ open package `edu.ucla.library.dep.GenerateMods`
++ open package `edu.ucla.library.dep.generateMods`
 + double click `OpenCSVIdep.java`, this will open in the big window.
 
 ##### 1.3 Update the path to the spreadsheet and mods location

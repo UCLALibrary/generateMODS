@@ -1,4 +1,4 @@
-package edu.ucla.library.dep.GenerateMods;
+package edu.ucla.library.dep.generateMods;
 
 public class TestSplit {
 
