@@ -1,4 +1,4 @@
-package edu.ucla.library.dep.generateMods;
+package edu.ucla.library.dep.GenerateMods;
 
 import java.io.FileReader;
 import java.io.FileWriter;
