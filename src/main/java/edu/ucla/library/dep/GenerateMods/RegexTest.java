@@ -1,4 +1,4 @@
-package edu.ucla.library.dep.generateMods;
+package edu.ucla.library.dep.GenerateMods;
 
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
