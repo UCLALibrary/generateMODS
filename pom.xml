@@ -96,7 +96,9 @@
 							<archive>
 								<manifest>
 									<addClasspath>true</addClasspath>
-									<mainClass>edu.ucla.library.dep.GenerateMods.OpenCsvIdep</mainClass>
+
+									<mainClass>edu.ucla.library.dep.generateMods.OpenCsvMain</mainClass>
+
 								</manifest>
 							</archive>
 							<descriptorRefs>
