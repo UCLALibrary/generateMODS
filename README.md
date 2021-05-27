@@ -93,5 +93,4 @@ Project URL is: example.com
    Review and Merge the PR.
   
    Inform the stakeholders.
-  
 
