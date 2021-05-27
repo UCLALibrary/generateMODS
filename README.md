@@ -1,4 +1,4 @@
-# generateMODS is maven application
+# generateMODS is a maven application
 
 #### [openCSV](http://opencsv.sourceforge.net/#reading) library is used to create MODS from the spreadsheet for IDEP and Meap
 #### The spreadsheet mapping is [here](https://docs.google.com/spreadsheets/d/1TTQKmFVWYumsWC5QwKf5E7bxzAmgnefOHrzAiCiQfrU/edit#gid=15338334)
@@ -18,7 +18,7 @@ Go [here](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-download
 Go [here](https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/2019-03/R/eclipse-jee-2019-03-R-win32-x86_64.zip) 
 
 
-## Get the Code
+## Get the Code.
 
 Clone the Git repo at `https://github.com/UCLALibrary/GenerateMODS.git`.
 
@@ -28,28 +28,35 @@ git clone https://github.com/UCLALibrary/GenerateMODS.git
 cd GenerateMods
 ls
 ``` 
-## THE UPDATED WAY TO RUN THIS PROJECT
+## Run the jar executable program.
 ```Shell
-git pull
+PS \eclipse-workspace\GenerateMODS\target> git pull
+   
 PS \eclipse-workspace\GenerateMODS\target> java -jar .\GenerateMods-0.0.1-SNAPSHOT-jar-with-dependencies.jar 
+
 Enter InputFilePath is: 
 /Users/testuser/Downloads/barb_eph_cicz_Finalv6.csv
+
 InputFilePath is: /Users/testuser/Downloads/barb_eph_cicz_Finalv6.csv
 Enter OutputFilePath is: 
 /Users/testuser/Downloads/mods/
+
 OutputFilePath is: /Users/testuser/Downloads/mods/
-Enter Enter program (IDEP or MEAP): 
-MEAP
+
 Enter program (IDEP or MEAP): MEAP
 Program is: MEAP
+
 Enter Project name is: 
-GOOGLW
-Project name is: sample
+EXAMPLE
+
+Project name is: EXAMPLE
+
 Enter Project URL is: 
-google.com
-Project URL is: sample.com
+example.com
+
+Project URL is: example.com
 ```
-## Project Setup Current to build a jar file using maven
+## Project Setup to build a jar file using maven.
 
 #### 1. Open the project
 
@@ -79,12 +86,12 @@ Project URL is: sample.com
   
   Test the app with the instruction above.
 
-#### Next commit the changes to git  
+  #### Next commit the changes to git  
 
-  Create PR for this change.
+   Create PR for this change.
   
-  Review and Merge the PR.
+   Review and Merge the PR.
   
-  Inform the stakeholders.
+   Inform the stakeholders.
   
 
