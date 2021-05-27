@@ -1,6 +1,6 @@
 # generateMODS is maven application
 
-#### This [openCSV](http://opencsv.sourceforge.net/#reading) library is used to create MODS from the spreadsheet for IDEP and Meap
+#### [openCSV](http://opencsv.sourceforge.net/#reading) library is used to create MODS from the spreadsheet for IDEP and Meap
 #### The spreadsheet mapping is [here](https://docs.google.com/spreadsheets/d/1TTQKmFVWYumsWC5QwKf5E7bxzAmgnefOHrzAiCiQfrU/edit#gid=15338334)
 
 # Environment Setup - Windows 10 64-bit
