@@ -1,4 +1,8 @@
 /target/classes/
 /target/test-classes/
 /target/maven-status/
-/target/
+/target/archive-tmp/
+/target/generated-sources/
+/target/generated-test-sources/
+/target/maven-archiver/
+/target/GenerateMods-0.0.1-SNAPSHOT.jar
