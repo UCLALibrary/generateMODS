@@ -38,6 +38,7 @@ public class CsvBean {
 
 	@CsvBindByName(column = "Genre")
 	private String genre;
+	
 
 	@CsvBindAndJoinByName(column = "(Institution|Insitution)/Repository", elementType = String.class)
 	private MultiValuedMap<String, String> institution_repository;
@@ -90,12 +91,12 @@ public class CsvBean {
 	@CsvBindAndJoinByName(column = "RIGHTS.*", elementType = String.class)
 	private MultiValuedMap<String, String> rights;
 
-	@CsvBindAndJoinByName(column = "VOLUME.*", elementType = String.class)
-	private MultiValuedMap<String, String> volumes;
+	@CsvBindAndJoinByName(column = "VOLUME.*|ISSUE", elementType = String.class)
+	private MultiValuedMap<String, String> volumesOrIssues;
 
 	@CsvBindAndJoinByName(column = "CONTRIBUTOR.*", elementType = String.class)
 	private MultiValuedMap<String, String> contributors;
-
+	
 	public String getLocalRightsStatement() {
 		return localRightsStatement;
 	}
@@ -276,12 +277,12 @@ public class CsvBean {
 		this.physicalDescription = physicalDescription;
 	}
 
-	public MultiValuedMap<String, String> getVolumes() {
-		return volumes;
+	public MultiValuedMap<String, String> getVolumesOrIssues() {
+		return volumesOrIssues;
 	}
 
-	public void setVolumes(MultiValuedMap<String, String> volumes) {
-		this.volumes = volumes;
+	public void setVolumesOrIssues(MultiValuedMap<String, String> volumesOrIssues) {
+		this.volumesOrIssues = volumesOrIssues;
 	}
 
 	public MultiValuedMap<String, String> getContributors() {
@@ -350,16 +351,17 @@ public class CsvBean {
 
 	@Override
 	public String toString() {
-		return "IdepCsvBean [fileName=" + fileName + ", streamingURL=" + streamingURL + ", localID=" + localID
-				+ ", license=" + license + ", localRightsStatement=" + localRightsStatement + ", related_resource="
-				+ related_resource + ", collection=" + collection + ", series=" + series + ", subSeries=" + subSeries
-				+ ", typeOfResource=" + typeOfResource + ", genre=" + genre + ", institution_repository="
-				+ institution_repository + ", collectionName=" + collectionName + ", collectionNumber="
-				+ collectionNumber + ", box=" + box + ", folder=" + folder + ", translated_title=" + translated_title
-				+ ", alt_titles=" + alt_titles + ", titles=" + titles + ", creators=" + creators + ", publishers="
-				+ publishers + ", dates=" + dates + ", physicalDescription=" + physicalDescription + ", languages="
-				+ languages + ", abstracts=" + abstracts + ", notes=" + notes + ", subjects=" + subjects + ", rights="
-				+ rights + ", volumes=" + volumes + ", contributors=" + contributors + "]";
+		return "CsvBean [fileName=" + fileName + ", streamingURL=" + streamingURL + ", localID=" + localID
+				+ ", license=" + license + ", related_resource=" + related_resource + ", collection=" + collection
+				+ ", series=" + series + ", subSeries=" + subSeries + ", localRightsStatement=" + localRightsStatement
+				+ ", typeOfResource=" + typeOfResource + ", genre=" + genre
+				+ ", institution_repository=" + institution_repository + ", collectionName=" + collectionName
+				+ ", collectionNumber=" + collectionNumber + ", box=" + box + ", folder=" + folder
+				+ ", translated_title=" + translated_title + ", alt_titles=" + alt_titles + ", titles=" + titles
+				+ ", creators=" + creators + ", publishers=" + publishers + ", dates=" + dates
+				+ ", physicalDescription=" + physicalDescription + ", languages=" + languages + ", abstracts="
+				+ abstracts + ", notes=" + notes + ", subjects=" + subjects + ", rights=" + rights + ", volumesOrIssues="
+				+ volumesOrIssues + ", contributors=" + contributors + "]";
 	}
 
 }
