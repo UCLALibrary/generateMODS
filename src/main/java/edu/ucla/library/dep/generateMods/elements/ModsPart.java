@@ -10,9 +10,9 @@ import edu.ucla.library.dep.generateMods.util.Constants;
 public class ModsPart {
 
 	public void createPart(Element rootElement, CsvBean csvbean) {
-		if (null != csvbean.getVolumes() && !csvbean.getVolumes().isEmpty()) {
+		if (null != csvbean.getVolumesOrIssues() && !csvbean.getVolumesOrIssues().isEmpty()) {
 
-            MultiValuedMap<String, String> volumes = csvbean.getVolumes();
+            MultiValuedMap<String, String> volumes = csvbean.getVolumesOrIssues();
             MultiSet<String> columnames = volumes.keys();
             for (String columnname : columnames) {
                 String[] volCol = columnname.split(Constants.regex);
