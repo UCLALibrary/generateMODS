@@ -32,6 +32,7 @@ public class ProcessCsvImpl implements ProcessCSV {
         if (null != titleValue && !"".equals(titleValue.trim())){
             Element childRelatedItem = new Element("relatedItem", namespace);
             childRelatedItem.setAttribute(Constants.TYPE, typeValue);
+            childRelatedItem.setAttribute(Constants.DISPLAY_LABEL, "project");
             Element childTitleInfo = new Element("titleInfo", namespace);
             baseElement.createElementFromString(childTitleInfo, "title", namespace, titleValue, null, null, null, null, null, null);
             childRelatedItem.addContent(childTitleInfo);
