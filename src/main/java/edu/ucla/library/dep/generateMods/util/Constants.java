@@ -6,8 +6,8 @@ import java.util.regex.Pattern;
 
 public final class Constants {
 
-    public static final Namespace namespace = Namespace.getNamespace("mods", "https://www.loc.gov/mods/v3");
-    public static final Namespace namespaceXlink = Namespace.getNamespace("xlink", "https://www.w3.org/1999/xlink");
+    public static final Namespace namespace = Namespace.getNamespace("mods", "http://www.loc.gov/mods/v3");
+    public static final Namespace namespaceXlink = Namespace.getNamespace("xlink", "http://www.w3.org/1999/xlink");
     public static final Namespace namespaceXsi = Namespace.getNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
     public static final Namespace namespaceCopyrightMD = Namespace.getNamespace("copyrightMD",
             "https://www.cdlib.org/inside/diglib/copyrightMD");
