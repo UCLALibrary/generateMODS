@@ -24,8 +24,28 @@ public class ModsIdentifier {
 
         // Add Local ID
         if (null != csvbean.getLocalID()) {
-            baseElement.createElementFromString(rootElement, "identifier", Constants.namespace, csvbean.getLocalID(), "local", null, null,
+        	for (String localID : csvbean.getLocalID().split(Constants.regex)) {
+        		baseElement.createElementFromString(rootElement, "identifier", Constants.namespace, localID, "local", null, null,
                     null, null, null);
+        	}
+        }
+        
+        // Add Preview Image
+        if (null != csvbean.getPreviewImage()) {
+            baseElement.createElementFromString(rootElement, "identifier", Constants.namespace, csvbean.getPreviewImage(), "uri",
+                    "Preview Image", null, null, null, null);
+        }
+        
+        // Add Display Image
+        if (null != csvbean.getDisplayImage()) {
+            baseElement.createElementFromString(rootElement, "identifier", Constants.namespace, csvbean.getDisplayImage(), "uri",
+                    "Display Image", null, null, null, null);
+        }
+        
+        // Add View Record
+        if (null != csvbean.getViewRecord()) {
+            baseElement.createElementFromString(rootElement, "identifier", Constants.namespace, csvbean.getViewRecord(), "uri",
+                    "View Record", null, null, null, null);
         }
 
 	}

@@ -143,6 +143,7 @@ public class AssembleMods {
         // passed fileWriter to write content in specified file
 
         xmlOutput.setFormat(Format.getPrettyFormat().setEncoding("UTF-8"));
+
         xmlOutput.output(jdomDoc, new OutputStreamWriter(
                 new FileOutputStream(
                         outfilePath + cvsbean.getFileName().replaceFirst("pdf", "xml").replaceFirst("tif", "xml")

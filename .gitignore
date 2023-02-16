@@ -7,3 +7,4 @@
 /target/maven-archiver/
 /target/surefire-reports/
 /target/GenerateMods-0.0.1-SNAPSHOT.jar
+/target/
