@@ -39,6 +39,16 @@ public class CsvBean {
 	@CsvBindByName(column = "Genre")
 	private String genre;
 	
+	@CsvBindByName(column = "Preview Image")
+	private String previewImage;
+	
+	@CsvBindByName(column = "Display Image")
+	private String displayImage;
+	
+	@CsvBindByName(column = "View Record")
+	private String viewRecord;
+	
+	
 
 	@CsvBindAndJoinByName(column = "(Institution|Insitution)/Repository", elementType = String.class)
 	private MultiValuedMap<String, String> institution_repository;
@@ -187,6 +197,30 @@ public class CsvBean {
 
 	public void setGenre(String genre) {
 		this.genre = genre;
+	}
+	
+	public String getPreviewImage() {
+		return previewImage;
+	}
+
+	public void setPreviewImage(String previewImage) {
+		this.previewImage = previewImage;
+	}
+
+	public String getDisplayImage() {
+		return displayImage;
+	}
+
+	public void setDisplayImage(String displayImage) {
+		this.displayImage = displayImage;
+	}
+
+	public String getViewRecord() {
+		return viewRecord;
+	}
+
+	public void setViewRecord(String viewRecord) {
+		this.viewRecord = viewRecord;
 	}
 
 	public MultiValuedMap<String, String> getInstitution_repository() {
@@ -348,6 +382,7 @@ public class CsvBean {
 	public void setAlt_titles(MultiValuedMap<String, String> alt_titles) {
 		this.alt_titles = alt_titles;
 	}
+	
 
 	@Override
 	public String toString() {
@@ -361,7 +396,13 @@ public class CsvBean {
 				+ ", creators=" + creators + ", publishers=" + publishers + ", dates=" + dates
 				+ ", physicalDescription=" + physicalDescription + ", languages=" + languages + ", abstracts="
 				+ abstracts + ", notes=" + notes + ", subjects=" + subjects + ", rights=" + rights + ", volumesOrIssues="
-				+ volumesOrIssues + ", contributors=" + contributors + "]";
+				+ volumesOrIssues + ", contributors=" + contributors
+				+ ", previewImage=" + previewImage
+				+ ", displayImage=" + displayImage
+				+ ", viewRecord=" + viewRecord
+				+ "]";
 	}
+
+
 
 }

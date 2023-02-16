@@ -41,15 +41,20 @@ public class ModsTitle {
             for (String columnname : columnames) {
                 if (altTitles.get(columnname).iterator().next().trim().length() > 0) {
                     String[] titleCol = columnname.split(Constants.regex);
-                    Element childTitleInfo = new Element("titleInfo", Constants.namespace);
-                    Element childTitle = new Element("title", Constants.namespace);
-                    childTitle.addContent(altTitles.get(columnname).iterator().next());
-                    if (titleCol.length > 1) {
-                        childTitle.setAttribute("lang", titleCol[1].trim());
+                    
+                    for (String altTitle : altTitles.get(columnname).iterator().next().split(Constants.regex)) {
+                        Element childTitleInfo = new Element("titleInfo", Constants.namespace);
+                    	Element childTitle = new Element("title", Constants.namespace);
+                    	childTitle.addContent(altTitle);
+                    	if (titleCol.length > 1) {
+                    		childTitle.setAttribute("lang", titleCol[1].trim());
+                    	}
+                    	childTitle.setAttribute("type", "alternative");
+                    	childTitleInfo.addContent(childTitle);
+                    	rootElement.addContent(childTitleInfo);
+                    	
                     }
-                    childTitle.setAttribute("type", "alternative");
-                    childTitleInfo.addContent(childTitle);
-                    rootElement.addContent(childTitleInfo);
+                    
                 }
 
             }

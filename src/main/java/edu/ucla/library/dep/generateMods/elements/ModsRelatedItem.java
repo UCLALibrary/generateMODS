@@ -44,7 +44,9 @@ public class ModsRelatedItem {
         }
 
         if (null != csvbean.getSeries() && !csvbean.getSeries().isEmpty()) {
-            processcsv.createRelatedItemElement(rootElement, Constants.namespace, "series", csvbean.getSeries());
+        	for (String series : csvbean.getSeries().split(Constants.regex)) {
+        		processcsv.createRelatedItemElement(rootElement, Constants.namespace, "series", series);
+        	}
         }
 
         if (null != csvbean.getSubSeries() && !csvbean.getSubSeries().isEmpty()) {
